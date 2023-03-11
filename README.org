@@ -1,0 +1,11 @@
+* x220 Fedora Dotfiles
+** zsh
+.zshrc
+** emacs
+init.el
+Note, this will need to be symbollically linked to ~/.config/emacs/init.el
+** i3
+i3_config. 
+Note, this will need to be symbollically linked to ~/.config/i3/config
+** alacritty
+alacritty.yml
