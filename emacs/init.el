@@ -1,7 +1,7 @@
 (setq inhibit-startup-message t)
 (setq visible-bell t)
 
-;; Rice
+; Inhibit bars
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -14,7 +14,16 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
+(setq backup-directory-alist
+	`((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+	`((".*" ,temporary-file-directory t)))
+(setq auto-save-file-name-transforms
+	`((".*" ,temporary-file-directory t)))
+(setq undo-tree-history-directory-alist
+      `(("." . "~/.emacs.d/.undo-tree-history")))
 
+;; Lines
 (column-number-mode)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode t)
@@ -65,13 +74,47 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; UNDO TREE
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
 ;; EVIL MODE
 (use-package evil
-  :ensure t
+  :demand t
+  :bind (("<escape>" . keyboard-escape-quit))
+  :init
+  (setq evil-want-keybinding nil)
   :config
-  (evil-ex-define-cmd "q" (lambda () (interactive)
-			    (kill-this-buffer) (delete-frame)))
+  (load-file "~/.config/emacs/bindings-vim.el")
+  (setq evil-escape-key-sequence "C")
+  (evil-set-undo-system 'undo-tree)
   (evil-mode 1))
+(use-package evil-collection
+  :after evil
+  :config
+  (setq evil-want-integration t)
+  (evil-collection-init))
+(use-package evil-mc
+  :ensure t)
+(global-evil-mc-mode 1)
+(use-package evil-multiedit
+  :ensure t)
+(evil-multiedit-mode 1)
+
+;; SELF-DISCOVERABILITY FEATURE. SHow commands that follow
+;; the currently invoked binding
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.1)
+  (setq which-key-show-early-on-C-h-delay 0.5)
+  (define-key which-key-mode-map (kbd "C-x n") 'which-key-C-h-dispatch))
+
+;; RAINBOW PARENS
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; THEME
 (use-package doom-themes
@@ -98,42 +141,29 @@
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
-	 :map ivy-minibuffer-map
-	 ("TAB" . ivy-alt-done)
-	 ("C-l" . ivy-alt-done)
-	 ("C-j" . ivy-next-line)
-	 ("C-k" . ivy-previous-line)
-	 :map ivy-switch-buffer-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-l" . ivy-done)
-	 ("C-d" . ivy-switch-buffer-kill)
-	 :map ivy-reverse-i-search-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
+	:map ivy-minibuffer-map
+	("TAB" . ivy-alt-done)
+	("C-l" . ivy-alt-done)
+	("C-j" . ivy-next-line)
+	("C-k" . ivy-previous-line)
+	:map ivy-switch-buffer-map
+	("C-k" . ivy-previous-line)
+	("C-l" . ivy-done)
+	("C-d" . ivy-switch-buffer-kill)
+	:map ivy-reverse-i-search-map
+	("C-k" . ivy-previous-line)
+	("C-d" . ivy-reverse-i-search-kill))
+    :config
+    (ivy-mode 1))
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
 
-;; FRAMES / TILES
-;; This code tells Emacs to open all new windows in new frames,
-;; and to reuse existing frames if possible.
-;; NOTE: this configuration can cause Emacs to create a large number
-;; of frames if you frequntly open and close windows.
-(setq display-buffer-alist
-      '(;; Open all new windows in new frames
-        ("." . ((display-buffer-reuse-window display-buffer-pop-up-frame)
-                (inhibit-same-window . t)
-                (frame . nil)))))
+;; CUSTOM FUNCTIONS
+(load-file "~/.config/emacs/functions-shell.el")
 
-;;;;;;;;;;;;;;
-;; BINDINGS ;;
-;;;;;;;;;;;;;;
+;; GLOBAL BINDINGS
+(load-file "~/.config/emacs/bindings-global.el")
 
-;; BEGIN GLOBAL ;;
-
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-;; ZOOM IN
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C-\-") 'text-scale-decrease)
-
-;; END GLOBAL ;;
+;; FRAMES
+(load-file "~/.config/emacs/frames.el")

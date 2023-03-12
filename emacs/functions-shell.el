@@ -1,0 +1,6 @@
+(defun shell/ex-and-frame (cmd)
+  (interactive "s>>> ")
+  (let ((frame (make-frame)) (buf-name "*Command Output*"))
+    (select-frame frame)
+    (switch-to-buffer (get-buffer-create buf-name))
+    (async-shell-command cmd buf-name)))

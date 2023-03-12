@@ -2,6 +2,13 @@ custom-vars.el
 eln-cache/
 elpa/
 history
+places
+recentf
+auto-save-list
+eln-cache
+elpa
+history
 nohup.out
 places
 recentf
+transient

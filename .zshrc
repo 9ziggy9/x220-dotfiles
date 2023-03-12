@@ -16,4 +16,7 @@ compinit
 alias ls=exa
 alias cat=bat
 
+setxkbmap -option 'ctrl:nocaps'
+xcape -e 'Control_L=Escape'
+
 eval "$(starship init zsh)"
