@@ -11,6 +11,7 @@
 (define-key evil-motion-state-map (kbd "L") nil)
 (define-key evil-motion-state-map (kbd "H") nil)
 (define-key evil-normal-state-map (kbd "J") nil)
+(define-key evil-normal-state-map (kbd "D") nil)
 
 ;; NORMAL MODE
 ;; Bind to normal emacs shell command. It is quite useful that shell
@@ -25,6 +26,7 @@
   'evil-mc-make-cursor-move-next-line)
 (define-key evil-normal-state-map (kbd "K") 'evil-mc-undo-last-added-cursor)
 (define-key evil-normal-state-map (kbd "H") 'evil-mc-undo-all-cursors)
+(define-key evil-normal-state-map (kbd "D") 'er/expand-region)
 
 (evil-ex-define-cmd "q" (lambda () (interactive)
 			(kill-this-buffer) (delete-frame)))

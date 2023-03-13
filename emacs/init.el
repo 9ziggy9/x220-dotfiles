@@ -112,8 +112,14 @@
   :ensure t)
 (evil-multiedit-mode 1)
 
-(use-package multiple-cursors
+;; Expand election in delimiters
+(use-package expand-region
   :ensure t)
+
+;; Helpful for examining bindings on the fly
+(use-package command-log-mode
+  :ensure t)
+
 
 ;; SELF-DISCOVERABILITY FEATURE. SHow commands that follow
 ;; the currently invoked binding
