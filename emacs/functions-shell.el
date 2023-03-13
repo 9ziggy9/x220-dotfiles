@@ -4,3 +4,13 @@
     (select-frame frame)
     (switch-to-buffer (get-buffer-create buf-name))
     (async-shell-command cmd buf-name)))
+
+(defun shell/ex-on-reg-and-frame (start end cmd)
+  (interactive "r\nM$ ")
+  (let ((frame (make-frame))
+        (buf-name "*Shell Output*"))
+    (with-selected-frame frame
+      (let ((output-buffer (get-buffer-create buf-name)))
+        (shell-command-on-region start end cmd output-buffer)
+	(select-frame frame)
+	(switch-to-buffer buf-name)))))

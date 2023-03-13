@@ -10,6 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $term alacritty
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -56,6 +57,12 @@ bindsym $mod+x kill
 
 # start dmenu (a program launcher)
 bindsym $mod+p exec --no-startup-id dmenu_run
+
+# start scratchpads
+exec --no-startup-id alacritty --class dropdown -e tmux
+bindsym $mod+d [instance="dropdown"] scratchpad show, move position center
+for_window [instance="dropdown"] floating enable, resize set 800 600, move scratchpad
+
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
