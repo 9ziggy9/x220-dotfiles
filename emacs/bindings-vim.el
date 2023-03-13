@@ -10,6 +10,7 @@
 (define-key evil-motion-state-map (kbd "K") nil)
 (define-key evil-motion-state-map (kbd "L") nil)
 (define-key evil-motion-state-map (kbd "H") nil)
+(define-key evil-motion-state-map (kbd "SPC") nil)
 (define-key evil-normal-state-map (kbd "J") nil)
 (define-key evil-normal-state-map (kbd "D") nil)
 
@@ -27,6 +28,7 @@
 (define-key evil-normal-state-map (kbd "K") 'evil-mc-undo-last-added-cursor)
 (define-key evil-normal-state-map (kbd "H") 'evil-mc-undo-all-cursors)
 (define-key evil-normal-state-map (kbd "D") 'er/expand-region)
+(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-char-timer)
 
 (evil-ex-define-cmd "q" (lambda () (interactive)
 			(kill-this-buffer) (delete-frame)))

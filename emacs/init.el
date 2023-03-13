@@ -99,12 +99,17 @@
   :config
   (load-file "~/.config/emacs/bindings-vim.el")
   (setq evil-escape-key-sequence "C")
+  (setq evil-shift-width 2)
+  (setq evil-jump-cross-buffers t)
   (evil-set-undo-system 'undo-tree)
   (evil-mode 1))
 (use-package evil-collection
   :after evil
   :config
   (setq evil-want-integration t)
+  (setq avy-all-windows 'all-frames)
+  (setq avy-all-windows-alt t)
+  (setq avy-background t)
   (evil-collection-init))
 (use-package evil-mc
   :ensure t)
@@ -112,6 +117,9 @@
 (use-package evil-multiedit
   :ensure t)
 (evil-multiedit-mode 1)
+
+(use-package avy
+  :ensure t)
 
 ;; Expand election in delimiters
 (use-package expand-region
