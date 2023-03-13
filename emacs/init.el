@@ -8,8 +8,15 @@
 ;; FRAMES
 (load-file "~/.config/emacs/frames.el")
 
-(setq inhibit-startup-message t)
-(setq visible-bell t)
+(setq-default inhibit-startup-screen t
+              make-backup-files nil
+              tab-width 2
+              visible-bell t
+	            auto-save-default nil
+              create-lockfiles nil
+              indent-tabs-mode nil
+	            use-dialog-box nil
+              compilation-scroll-output t)
 
 ;; Inhibit bars
 (tool-bar-mode -1)
@@ -21,9 +28,6 @@
 (recentf-mode 1)
 
 ;; stop the backup files damnit
-(setq make-backup-files nil)
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
 (setq backup-directory-alist
 	`((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
@@ -49,9 +53,6 @@
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
-;; Don't pop up UI dialog boxes
-(setq use-dialog-box nil)
-
 ;; Refersh buffers when underlying files have changed.
 ;; i.e., suppose we change branches on git
 (global-auto-revert-mode 1)
@@ -59,7 +60,7 @@
 (setq global-auto-revert-non-file-buffers t)
 
 ;; FONT
-(set-face-attribute 'default nil :font "Iosevka Nerd Font-12")
+(set-face-attribute 'default nil :font "Iosevka Nerd Font-10")
 
 ;; AUTOPAIRS
 (electric-pair-mode t)
