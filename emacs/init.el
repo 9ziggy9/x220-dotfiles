@@ -1,3 +1,13 @@
+;; CUSTOM FUNCTIONS
+(load-file "~/.config/emacs/functions-shell.el")
+(load-file "~/.config/emacs/functions-find.el")
+
+;; GLOBAL BINDINGS
+(load-file "~/.config/emacs/bindings-global.el")
+
+;; FRAMES
+(load-file "~/.config/emacs/frames.el")
+
 (setq inhibit-startup-message t)
 (setq visible-bell t)
 
@@ -102,6 +112,9 @@
   :ensure t)
 (evil-multiedit-mode 1)
 
+(use-package multiple-cursors
+  :ensure t)
+
 ;; SELF-DISCOVERABILITY FEATURE. SHow commands that follow
 ;; the currently invoked binding
 (use-package which-key
@@ -157,13 +170,3 @@
 (use-package ivy-rich
   :init
   (ivy-rich-mode 1))
-
-;; CUSTOM FUNCTIONS
-(load-file "~/.config/emacs/functions-shell.el")
-(load-file "~/.config/emacs/functions-find.el")
-
-;; GLOBAL BINDINGS
-(load-file "~/.config/emacs/bindings-global.el")
-
-;; FRAMES
-(load-file "~/.config/emacs/frames.el")

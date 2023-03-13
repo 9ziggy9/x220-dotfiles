@@ -18,3 +18,5 @@
 
 ;; SHELL
 (global-set-key (kbd "C-\\") 'shell/ex-on-reg-and-frame)
+
+;; TEXT MANIPULATION
