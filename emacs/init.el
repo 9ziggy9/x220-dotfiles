@@ -1,7 +1,7 @@
 (setq inhibit-startup-message t)
 (setq visible-bell t)
 
-; Inhibit bars
+;; Inhibit bars
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -21,7 +21,7 @@
 (setq auto-save-file-name-transforms
 	`((".*" ,temporary-file-directory t)))
 (setq undo-tree-history-directory-alist
-      `(("." . "~/.emacs.d/.undo-tree-history")))
+      `(("." . "~/.config/emacs/.undo-tree-history")))
 
 ;; Lines
 (column-number-mode)
