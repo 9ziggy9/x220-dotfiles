@@ -60,7 +60,7 @@
 (setq global-auto-revert-non-file-buffers t)
 
 ;; FONT
-(set-face-attribute 'default nil :font "Iosevka Nerd Font-10")
+(set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
 
 ;; AUTOPAIRS
 (electric-pair-mode t)
@@ -167,6 +167,7 @@
   :bind (("M-x" . counsel-M-x)
 	 ("C-b" . counsel-ibuffer)
 	 ("C-f" . counsel-find-file)))
+(use-package counsel-projectile)
 
 ;; SWIPER -- search through document
 (use-package swiper)
@@ -194,3 +195,16 @@
 (use-package ivy-rich
   :init
   (ivy-rich-mode 1))
+
+;; LANGUAGES
+;; Note, I do NOT like starting LSP by default. Must start lsp-mode manually.
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t)
+  (add-hook 'lsp-mode-hook
+            (lambda () (remove-hook 'before-save-hook #'lsp-format-buffer))))
+
+(use-package ccls
+  :hook ((c-mode) . (lambda () (require 'ccls) (lsp))))

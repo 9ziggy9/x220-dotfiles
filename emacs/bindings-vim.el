@@ -13,8 +13,9 @@
 (define-key evil-motion-state-map (kbd "SPC") nil)
 (define-key evil-normal-state-map (kbd "J") nil)
 (define-key evil-normal-state-map (kbd "D") nil)
+(define-key evil-normal-state-map (kbd "C-g") nil)
 
-;; NORMAL MODE
+;; normal MODE
 ;; Bind to normal emacs shell command. It is quite useful that shell
 ;; output can be piped to a buffer for text editing!
 (define-key evil-normal-state-map (kbd "!") 'shell/ex-and-frame)
@@ -29,6 +30,7 @@
 (define-key evil-normal-state-map (kbd "H") 'evil-mc-undo-all-cursors)
 (define-key evil-normal-state-map (kbd "D") 'er/expand-region)
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-char-timer)
+(define-key evil-normal-state-map (kbd "C-g") 'counsel-projectile-ag)
 
 (evil-ex-define-cmd "q" (lambda () (interactive)
 			(kill-this-buffer) (delete-frame)))
