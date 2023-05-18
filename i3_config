@@ -71,7 +71,9 @@ bindsym $mod+p exec --no-startup-id rofi -show drun
 # start scratchpads
 exec --no-startup-id alacritty --class dropdown -e tmux
 bindsym $mod+d [instance="dropdown"] scratchpad show, move position center
-for_window [instance="dropdown"] floating enable, resize set 800 600, move scratchpad
+for_window [instance="dropdown"] floating enable, resize set 1200 800, move scratchpad
+for_window [title="Zoom"] floating enable
+for_window [class="zoom"] floating enable 
 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"

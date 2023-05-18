@@ -196,15 +196,54 @@
   :init
   (ivy-rich-mode 1))
 
+(use-package company
+  :ensure t
+  :defer t
+  :init 
+  (global-company-mode)
+  (setq company-idle-delay 0.25)
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+         ("<tab>" . company-complete-selection))
+        (:map lsp-mode-map
+         ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
 ;; LANGUAGES
 ;; Note, I do NOT like starting LSP by default. Must start lsp-mode manually.
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c l")
+  :hook (go-mode . lsp-deferred)
   :config
+  (setq lsp-prefer-flymake nil)
   (lsp-enable-which-key-integration t)
   (add-hook 'lsp-mode-hook
             (lambda () (remove-hook 'before-save-hook #'lsp-format-buffer))))
 
 (use-package ccls
   :hook ((c-mode) . (lambda () (require 'ccls) (lsp))))
+
+(use-package go-mode
+  :mode "\\.go\\'"
+  :config
+  (add-hook 'go-mode-hook #'lsp-deferred))
+
+(use-package python-mode
+  :ensure t
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode)
+  :config
+  (setq python-indent-offset 4
+        python-shell-interpreter-args "-i --simple-prompt")
+  (add-hook 'python-mode-hook 'company-mode))
+
+(use-package typescript-mode
+  :ensure t
+  :mode (("\\.tsx?\\'" . typescript-mode))
+  :config
+  ;; Set indentation style
+  (setq typescript-indent-level 2))
