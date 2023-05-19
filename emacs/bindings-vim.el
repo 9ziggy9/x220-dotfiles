@@ -20,7 +20,7 @@
 ;; output can be piped to a buffer for text editing!
 (define-key evil-normal-state-map (kbd "!") 'shell/ex-and-frame)
 (define-key evil-normal-state-map (kbd "C") 'comment-line)
-(define-key evil-visual-state-map (kbd "C") 'comment-region)
+(define-key evil-visual-state-map (kbd "C") 'comment-or-uncomment-region)
 (define-key evil-normal-state-map (kbd "-") 'evil-join)
 (define-key evil-normal-state-map (kbd "C-G") 'evil-goto-line)
 (define-key evil-normal-state-map (kbd "C-b") 'counsel-switch-buffer)
