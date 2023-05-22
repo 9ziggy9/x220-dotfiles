@@ -7,7 +7,7 @@
 
 ;; BUG: leads to collision with company-quickhelp popups!
 ;; FRAMES
-;; (load-file "~/.config/emacs/frames.el")
+(load-file "~/.config/emacs/frames.el")
 
 (setq-default inhibit-startup-screen t
               make-backup-files nil

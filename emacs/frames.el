@@ -4,13 +4,7 @@
 ;; NOTE: this configuration can cause Emacs to create a large number
 ;; of frames if you frequntly open and close windows.
 (setq display-buffer-alist
-      '(;; Open all new windows in new frames
-        ("*Help*" .
-	 ((display-buffer-reuse-window display-buffer-pop-up-frame)
-	  (inhibit-same-window . t)
-	  (frame . visible)
-	  (display-buffer-reuse-frames . t)))
-	("^*Man.*" .
+      '(("^*Man.*" .
 	 ((display-buffer-reuse-window display-buffer-pop-up-frame)
 	  (inhibit-same-window . t)
 	  (frame . nil)))))
