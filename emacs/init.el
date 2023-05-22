@@ -5,8 +5,9 @@
 ;; GLOBAL BINDINGS
 (load-file "~/.config/emacs/bindings-global.el")
 
+;; BUG: leads to collision with company-quickhelp popups!
 ;; FRAMES
-(load-file "~/.config/emacs/frames.el")
+;; (load-file "~/.config/emacs/frames.el")
 
 (setq-default inhibit-startup-screen t
               make-backup-files nil
@@ -201,6 +202,7 @@
 	("C-k" . ivy-previous-line)
 	("C-l" . ivy-done)
 	("C-d" . ivy-switch-buffer-kill)
+	("C-<return>" . find/open-in-new-frame)
 	:map ivy-reverse-i-search-map
 	("C-k" . ivy-previous-line)
 	("C-d" . ivy-reverse-i-search-kill))
@@ -209,6 +211,17 @@
 (use-package ivy-rich
   :init
   (ivy-rich-mode 1))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init (setq lsp-keymap-prefix "C-c l")
+  :hook ((go-mode . lsp-deferred)
+         (lsp-mode . (lambda () (remove-hook
+                                 'before-save-hook
+                                 #'lsp-format-buffer))))
+  :config
+  (setq lsp-prefer-flymake nil)
+  (lsp-enable-which-key-integration t))
 
 (use-package company
   :ensure t
@@ -222,25 +235,20 @@
          ("<tab>" . company-complete-selection))
         (:map lsp-mode-map
          ("<tab>" . company-indent-or-complete-common))
-  :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0)
   :config
     ;; typescript annotations and backend
     (setq company-tooltip-align-annotations t)
     (push 'company-tide company-backends))
 
-;; BEGIN LANGUAGES
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :init (setq lsp-keymap-prefix "C-c l")
-  :hook (go-mode . lsp-deferred)
+(use-package company-quickhelp
+  :ensure t
+  :after company
+  :hook ((company-mode . company-quickhelp-mode))
   :config
-  (setq lsp-prefer-flymake nil)
-  (lsp-enable-which-key-integration t)
-  (add-hook 'lsp-mode-hook
-            (lambda () (remove-hook 'before-save-hook #'lsp-format-buffer))))
+  (setq company-quickhelp-max-lines 5)
+  (setq company-quickhelp-delay 0.0))
 
+;; BEGIN LANGUAGES
 (use-package ccls
   :hook ((c-mode) . (lambda () (require 'ccls) (lsp))))
 
@@ -263,16 +271,13 @@
   :ensure t
   :mode (("\\.tsx?\\'" . typescript-mode))
   :config
-  ;; Set indentation style
   (setq typescript-indent-level 2))
 (use-package tide
   :ensure t
   :after typescript-mode
   :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save))
+         (typescript-mode . tide-hl-identifier-mode))
   :config
-  ;; Configure tide server
   (setq tide-completion-ignore-case t
         tide-always-show-documentation t
         tide-server-max-response-length 102400))
