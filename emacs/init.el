@@ -296,3 +296,10 @@
   (setq dired-sidebar-use-custom-modeline t)
   (setq dired-sidebar-custom-modeline-format "Dired Sidebar")
   (setq dired-sidebar-use-magit-integration t))
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "C-<return>") #'my-dired-find-file-other-frame))
+(defun my-dired-find-file-other-frame ()
+  "Open the file at point in a new frame."
+  (interactive)
+  (select-frame (make-frame))
+  (dired-find-file))
