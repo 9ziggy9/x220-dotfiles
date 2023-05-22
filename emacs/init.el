@@ -209,8 +209,12 @@
         (:map lsp-mode-map
          ("<tab>" . company-indent-or-complete-common))
   :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0)
+  :config
+    ;; typescript annotations and backend
+    (setq company-tooltip-align-annotations t)
+    (push 'company-tide company-backends))
 
 ;; LANGUAGES
 ;; Note, I do NOT like starting LSP by default. Must start lsp-mode manually.
@@ -241,9 +245,22 @@
         python-shell-interpreter-args "-i --simple-prompt")
   (add-hook 'python-mode-hook 'company-mode))
 
+;; BEGIN TYPESCRIPT
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx?\\'" . typescript-mode))
   :config
   ;; Set indentation style
   (setq typescript-indent-level 2))
+(use-package tide
+  :ensure t
+  :after typescript-mode
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save))
+  :config
+  ;; Configure tide server
+  (setq tide-completion-ignore-case t
+        tide-always-show-documentation t
+        tide-server-max-response-length 102400))
+;; END TYPESCRIPT
