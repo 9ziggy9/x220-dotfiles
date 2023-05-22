@@ -61,6 +61,10 @@
 
 ;; FONT
 (set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
+(custom-set-faces
+ '(echo-area ((t (:height 120))))
+ '(minibuffer-prompt ((t (:height 150))))
+ '(mode-line ((t (:height 120)))))
 
 ;; AUTOPAIRS
 (electric-pair-mode t)
@@ -166,7 +170,9 @@
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
 	 ("C-b" . counsel-ibuffer)
-	 ("C-f" . counsel-find-file)))
+	 ("C-f" . counsel-find-file)
+	 ("C-q" . counsel-descbinds)))
+
 (use-package counsel-projectile)
 
 ;; SWIPER -- search through document
@@ -190,8 +196,8 @@
 	:map ivy-reverse-i-search-map
 	("C-k" . ivy-previous-line)
 	("C-d" . ivy-reverse-i-search-kill))
-    :config
-    (ivy-mode 1))
+  :config
+  (ivy-mode 1))
 (use-package ivy-rich
   :init
   (ivy-rich-mode 1))
@@ -216,8 +222,7 @@
     (setq company-tooltip-align-annotations t)
     (push 'company-tide company-backends))
 
-;; LANGUAGES
-;; Note, I do NOT like starting LSP by default. Must start lsp-mode manually.
+;; BEGIN LANGUAGES
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c l")
@@ -264,3 +269,30 @@
         tide-always-show-documentation t
         tide-server-max-response-length 102400))
 ;; END TYPESCRIPT
+;; END LANGUAGES
+
+;; CUSTOM MODE LINE
+(use-package powerline-evil
+  :ensure t
+  :config (powerline-evil-center-color-theme))
+(custom-set-faces
+  '(powerline-evil-normal-face ((t (:inherit powerline-evil-base-face))))
+  '(powerline-evil-insert-face ((t (:inherit powerline-evil-base-face))))
+  '(powerline-evil-visual-face ((t (:inherit powerline-evil-base-face))))
+  '(powerline-evil-operator-face ((t (:inherit powerline-evil-base-face)))))
+(setq powerline-height 25
+      powerline-evil-show-evil-state nil
+      powerline-default-separator 'contour)
+
+;; BETTER DIRED
+(use-package dired-sidebar
+  :ensure t
+  :bind (("C-<tab>" . dired-sidebar-toggle-sidebar))
+  :commands (dired-sidebar-toggle-sidebar)
+  :config
+  (setq dired-sidebar-theme 'nerd)
+  (setq dired-sidebar-width 30)
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-use-custom-modeline t)
+  (setq dired-sidebar-custom-modeline-format "Dired Sidebar")
+  (setq dired-sidebar-use-magit-integration t))
