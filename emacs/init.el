@@ -215,12 +215,10 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c l")
-  :hook ((go-mode . lsp-deferred)
-         (lsp-mode . (lambda () (remove-hook
+  :hook ((lsp-mode . (lambda () (remove-hook
                                  'before-save-hook
                                  #'lsp-format-buffer))))
   :config
-  (setq lsp-prefer-flymake nil)
   (lsp-enable-which-key-integration t))
 
 (use-package company
@@ -239,12 +237,11 @@
     ;; typescript annotations and backend
     (setq company-tooltip-align-annotations t)
     (push 'company-tide company-backends))
-
 (use-package company-quickhelp
   :ensure t
   :after company
-  :hook ((company-mode . company-quickhelp-mode))
   :config
+  (company-quickhelp-mode 1)
   (setq company-quickhelp-max-lines 5)
   (setq company-quickhelp-delay 0.0))
 
@@ -252,10 +249,11 @@
 (use-package ccls
   :hook ((c-mode) . (lambda () (require 'ccls) (lsp))))
 
+;; BEGIN GOLANG
 (use-package go-mode
-  :mode "\\.go\\'"
-  :config
-  (add-hook 'go-mode-hook #'lsp-deferred))
+  :ensure t
+  :mode "\\.go\\'")
+;; END GOLANG
 
 (use-package python-mode
   :ensure t

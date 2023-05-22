@@ -1,6 +1,6 @@
 custom-vars.el
 eln-cache/
-elpa/
+elpa*/
 history
 places
 recentf
