@@ -16,7 +16,7 @@
 
 ;; BUFFERS
 (global-set-key (kbd "M-<tab>") 'mode-line-other-buffer)
-(global-set-key (kbd "M-k") 'kill-buffer-and-window)
+(global-set-key (kbd "M-q") 'kill-buffer-and-window)
 (global-set-key (kbd "M-e") 'eval-buffer)
 (global-set-key (kbd "M-c") 'compile)
 (global-set-key (kbd "C-h") 'windmove-left)

@@ -27,6 +27,13 @@
 ;; Rather than find-file, you can find recently edited files
 (recentf-mode 1)
 
+;; Automatic switching to compilation window after done
+(add-hook 'compilation-finish-functions
+          'switch-to-buffer-other-window 'compilation)
+;; Automatic switching to help windows
+(setq help-window-select t)
+
+
 ;; stop the backup files damnit
 (setq backup-directory-alist
 	`((".*" . ,temporary-file-directory)))
@@ -134,6 +141,7 @@
   :ensure t)
 
 (use-package helpful
+  :ensure t
   :custom
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-variable-function #'helpful-variable)
