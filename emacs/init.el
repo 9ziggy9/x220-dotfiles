@@ -255,7 +255,7 @@
 (use-package eldoc-box
   :ensure t
   :hook ((eldoc-mode . eldoc-box-hover-mode))
-  :config (setq eldoc-box-max-pixel-width 350)
+  :config (setq eldoc-box-max-pixel-width 400)
           (setq eldoc-box-max-pixel-height 200))
 
 ;; BEGIN LANGUAGES
