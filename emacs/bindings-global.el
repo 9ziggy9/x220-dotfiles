@@ -6,6 +6,14 @@
 (global-unset-key (kbd "M-c"))
 (global-unset-key (kbd "C-h"))
 (global-unset-key (kbd "C-l"))
+(global-unset-key (kbd "M-d"))
+
+;; Describe/help functions
+(global-set-key (kbd "M-d f") 'describe-function)
+(global-set-key (kbd "M-d v") 'describe-variable)
+(global-set-key (kbd "M-d c") 'describe-command)
+(global-set-key (kbd "M-d m") 'describe-mode)
+(global-set-key (kbd "M-d b") 'describe-bindings)
 
 ;; Make ESC quit prompt
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)

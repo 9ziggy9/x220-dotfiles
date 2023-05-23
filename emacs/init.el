@@ -1,88 +1,5 @@
-;; CUSTOM FUNCTIONS
-(load-file "~/.config/emacs/functions-shell.el")
-(load-file "~/.config/emacs/functions-find.el")
-
-;; GLOBAL BINDINGS
-(load-file "~/.config/emacs/bindings-global.el")
-
-;; BUG: leads to collision with company-quickhelp popups!
-;; FRAMES
-(load-file "~/.config/emacs/frames.el")
-
-(setq-default inhibit-startup-screen t
-              make-backup-files nil
-              tab-width 2
-              visible-bell t
-	            auto-save-default nil
-              create-lockfiles nil
-              indent-tabs-mode nil
-	            use-dialog-box nil
-              compilation-scroll-output t)
-
-;; Inhibit bars
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(set-fringe-mode 10)
-
-;; Rather than find-file, you can find recently edited files
-(recentf-mode 1)
-
-;; Automatic switching to compilation window after done
-(add-hook 'compilation-finish-functions
-          'switch-to-buffer-other-window 'compilation)
-;; Automatic switching to help windows
-(setq help-window-select t)
-
-
-;; stop the backup files damnit
-(setq backup-directory-alist
-	`((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-	`((".*" ,temporary-file-directory t)))
-(setq auto-save-file-name-transforms
-	`((".*" ,temporary-file-directory t)))
-(setq undo-tree-history-directory-alist
-      `(("." . "~/.config/emacs/.undo-tree-history")))
-
-;; Lines
-(column-number-mode)
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode t)
-
-;; Command history
-(setq history-length 100)
-(savehist-mode 1)
-(save-place-mode 1)
-
-;; Prevents customization varibles being put into out init.el!
-;; Keep a nice clean init.el, with automatic code generated from
-;; things such as use-package.
-(setq custom-file (locate-user-emacs-file "custom-vars.el"))
-(load custom-file 'noerror 'nomessage)
-
-;; Refersh buffers when underlying files have changed.
-;; i.e., suppose we change branches on git
-(global-auto-revert-mode 1)
-(setq auto-revert-ask-before-discard nil)
-(setq global-auto-revert-non-file-buffers t)
-
-;; FONT
-(set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
-(custom-set-faces
- '(echo-area ((t (:height 120))))
- '(minibuffer-prompt ((t (:height 150))))
- '(mode-line ((t (:height 120)))))
-
-;; AUTOPAIRS
-(electric-pair-mode t)
-
-;; USE SYSTEM CLIPBOARD
-(setq x-select-enable-clipboard t)
-
-;; PACKAGE MANAGEMENT
+;; BEGIN PACKAGE MANAGEMENT
 (require 'package)
-
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			("org" . "https://orgmode.org/elpa/")
 			("elpa" . "https://elpa.gnu.org/packages/")))
@@ -96,14 +13,100 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+;; END USE-PACKAGE
+
+(use-package emacs
+  :ensure t
+  :config
+  ;; CUSTOM FUNCTIONS
+  (load-file "~/.config/emacs/functions-shell.el")
+  (load-file "~/.config/emacs/functions-find.el")
+
+  ;; GLOBAL BINDINGS
+  (load-file "~/.config/emacs/bindings-global.el")
+
+  ;; BUG: leads to collision with company-quickhelp popups!
+  ;; FRAMES
+  (load-file "~/.config/emacs/frames.el")
+  (setq-default inhibit-startup-screen t
+                make-backup-files nil
+                tab-width 2
+                visible-bell t
+                auto-save-default nil
+                create-lockfiles nil
+                indent-tabs-mode nil
+                use-dialog-box nil
+                compilation-scroll-output t)
+  ;; Inhibit bars
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+  (set-fringe-mode 10)
+
+  ;; Rather than find-file, you can find recently edited files
+  (recentf-mode 1)
+
+  ;; Automatic switching to compilation window after done
+  (add-hook 'compilation-finish-functions
+            'switch-to-buffer-other-window 'compilation)
+  ;; Automatic switching to help windows
+  (setq help-window-select t)
+
+
+  ;; stop the backup files damnit
+  (setq backup-directory-alist
+    `((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+    `((".*" ,temporary-file-directory t)))
+  (setq auto-save-file-name-transforms
+    `((".*" ,temporary-file-directory t)))
+  (setq undo-tree-history-directory-alist
+        `(("." . "~/.config/emacs/.undo-tree-history")))
+
+  ;; Lines
+  (column-number-mode)
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode t)
+
+  ;; Command history
+  (setq history-length 100)
+  (savehist-mode 1)
+  (save-place-mode 1)
+
+  ;; Prevents customization varibles being put into out init.el!
+  ;; Keep a nice clean init.el, with automatic code generated from
+  ;; things such as use-package.
+  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+  (load custom-file 'noerror 'nomessage)
+
+  ;; Refersh buffers when underlying files have changed.
+  ;; i.e., suppose we change branches on git
+  (global-auto-revert-mode 1)
+  (setq auto-revert-ask-before-discard nil)
+  (setq global-auto-revert-non-file-buffers t)
+
+  ;; FONT
+  (set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
+  (custom-set-faces
+  '(echo-area ((t (:height 120))))
+  '(minibuffer-prompt ((t (:height 150))))
+  '(mode-line ((t (:height 120)))))
+
+  ;; AUTOPAIRS
+  (electric-pair-mode t)
+
+  ;; USE SYSTEM CLIPBOARD
+  (setq x-select-enable-clipboard t))
 
 ;; UNDO TREE
 (use-package undo-tree
+  :ensure t
   :config
   (global-undo-tree-mode))
 
 ;; EVIL MODE
 (use-package evil
+  :ensure t
   :demand t
   :bind (("<escape>" . keyboard-escape-quit))
   :init
@@ -116,6 +119,7 @@
   (evil-set-undo-system 'undo-tree)
   (evil-mode 1))
 (use-package evil-collection
+  :ensure t
   :after evil
   :config
   (setq evil-want-integration t)
@@ -123,23 +127,18 @@
   (setq avy-all-windows-alt t)
   (setq avy-background t)
   (evil-collection-init))
-(use-package evil-mc
-  :ensure t)
+(use-package evil-mc :ensure t)
 (global-evil-mc-mode 1)
-(use-package evil-multiedit
-  :ensure t)
+(use-package evil-multiedit :ensure t)
 (evil-multiedit-mode 1)
 
-(use-package avy
-  :ensure t)
+(use-package avy :ensure t)
 
 ;; Expand election in delimiters
-(use-package expand-region
-  :ensure t)
+(use-package expand-region :ensure t)
 
 ;; Helpful for examining bindings on the fly
-(use-package command-log-mode
-  :ensure t)
+(use-package command-log-mode :ensure t)
 
 (use-package helpful
   :ensure t
@@ -155,6 +154,7 @@
 ;; SELF-DISCOVERABILITY FEATURE. SHow commands that follow
 ;; the currently invoked binding
 (use-package which-key
+  :ensure t
   :init (which-key-mode)
   :diminish which-key-mode
   :config
@@ -164,6 +164,7 @@
 
 ;; RAINBOW PARENS
 (use-package rainbow-delimiters
+  :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; THEME
@@ -177,19 +178,21 @@
 ;; COUNSEL
 ;; particularly useful for switching themes: M-x counsel themes
 (use-package counsel
+  :ensure t
   :bind (("M-x" . counsel-M-x)
 	 ("C-b" . counsel-ibuffer)
 	 ("C-f" . counsel-find-file)
 	 ("C-q" . counsel-descbinds)))
 
-(use-package counsel-projectile)
+(use-package counsel-projectile :ensure t)
 
 ;; SWIPER -- search through document
-(use-package swiper)
+(use-package swiper :ensure t)
 
 ;; IVY completion framework in find files, etc.
 ;; More minimalisitic than helm.
 (use-package ivy
+  :ensure t
   :diminish
   :bind (("C-s" . swiper)
 	:map ivy-minibuffer-map
@@ -209,34 +212,31 @@
   :config
   (ivy-mode 1))
 (use-package ivy-rich
+  :ensure t
   :init
   (ivy-rich-mode 1))
-
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :init (setq lsp-keymap-prefix "C-c l")
-  :hook ((lsp-mode . (lambda () (remove-hook
-                                 'before-save-hook
-                                 #'lsp-format-buffer))))
-  :config
-  (lsp-enable-which-key-integration t))
 
 (use-package company
   :ensure t
   :defer t
-  :init 
-  (global-company-mode)
-  (setq company-idle-delay 0.25)
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
-  :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
-        (:map lsp-mode-map
-         ("<tab>" . company-indent-or-complete-common))
-  :config
-    ;; typescript annotations and backend
-    (setq company-tooltip-align-annotations t)
-    (push 'company-tide company-backends))
+  :custom
+  ;; Search other buffers with the same modes for completion instead of
+  ;; searching all other buffers.
+  (company-dabbrev-other-buffers t)
+  (company-dabbrev-code-other-buffers t)
+  ;; Only 2 letters required for completion to activate.
+  (company-minimum-prefix-length 3)
+  ;; Do not downcase completions by default.
+  (company-dabbrev-downcase nil)
+  ;; Even if I write something with the wrong case, provide the correct casing.
+  (company-dabbrev-ignore-case t)
+  ;; company completion wait
+  (company-idle-delay 0.2)
+  ;; No company-mode in shell & eshell
+  (company-global-modes '(not eshell-mode shell-mode))
+  ;; Use company with text and programming modes.
+  :hook ((text-mode . company-mode)
+         (prog-mode . company-mode)))
 (use-package company-quickhelp
   :ensure t
   :after company
@@ -245,26 +245,34 @@
   (setq company-quickhelp-max-lines 5)
   (setq company-quickhelp-delay 0.0))
 
+(use-package eglot
+  :ensure t
+  :defer t
+  :hook ((eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
+         (go-mode     . eglot-ensure)
+         (c-mode      . eglot-ensure)
+         (pipenv-mode . (lambda () (pipenv-activate) (eglot-ensure)))))
+(use-package eldoc-box
+  :ensure t
+  :hook ((eldoc-mode . eldoc-box-hover-mode))
+  :config (setq eldoc-box-max-pixel-width 350)
+          (setq eldoc-box-max-pixel-height 200))
+
 ;; BEGIN LANGUAGES
-(use-package ccls
-  :hook ((c-mode) . (lambda () (require 'ccls) (lsp))))
+(use-package ccls :ensure t)    ;; c/c++
+(use-package go-mode :ensure t) ;; golang
 
-;; BEGIN GOLANG
-(use-package go-mode
+;; BEGIN PYTHON
+;; pipenv support included
+(use-package python-mode :ensure t)
+(use-package pipenv
   :ensure t
-  :mode "\\.go\\'")
-;; END GOLANG
-
-(use-package python-mode
-  :ensure t
-  :mode ("\\.py\\'" . python-mode)
-  :interpreter ("python" . python-mode)
-  :config
-  (setq python-indent-offset 4
-        python-shell-interpreter-args "-i --simple-prompt")
-  (add-hook 'python-mode-hook 'company-mode))
+  :commands (pipenv-mode pipenv-activate pipenv-run)
+  :hook (python-mode . pipenv-mode))
+;; END PYTHON
 
 ;; BEGIN TYPESCRIPT
+;; Note my typescript is using tide directly, rather than eglot
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx?\\'" . typescript-mode))
@@ -285,15 +293,10 @@
 ;; CUSTOM MODE LINE
 (use-package powerline-evil
   :ensure t
-  :config (powerline-evil-center-color-theme))
-(custom-set-faces
-  '(powerline-evil-normal-face ((t (:inherit powerline-evil-base-face))))
-  '(powerline-evil-insert-face ((t (:inherit powerline-evil-base-face))))
-  '(powerline-evil-visual-face ((t (:inherit powerline-evil-base-face))))
-  '(powerline-evil-operator-face ((t (:inherit powerline-evil-base-face)))))
-(setq powerline-height 25
-      powerline-evil-show-evil-state nil
-      powerline-default-separator 'contour)
+  :init 
+  (setq powerline-height 25
+        powerline-default-separator 'contour)
+  :config (powerline-default-theme))
 
 ;; BETTER DIRED
 (use-package dired-sidebar

@@ -13,3 +13,4 @@ places
 recentf
 transient
 .undo-tree-history/
+.lsp*
