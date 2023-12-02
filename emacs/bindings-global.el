@@ -7,6 +7,7 @@
 (global-unset-key (kbd "C-h"))
 (global-unset-key (kbd "C-l"))
 (global-unset-key (kbd "M-d"))
+(global-unset-key (kbd "M-$"))
 
 ;; Describe/help functions
 (global-set-key (kbd "M-d f") 'describe-function)

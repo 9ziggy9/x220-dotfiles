@@ -117,7 +117,13 @@
   (setq evil-shift-width 2)
   (setq evil-jump-cross-buffers t)
   (evil-set-undo-system 'undo-tree)
-  (evil-mode 1))
+  (evil-mode 1)
+  (add-hook 'evil-normal-state-exit-hook
+            #'(lambda () (interactive)
+                "Custom function to undo all evil-mc cursors."
+                (when (and (bound-and-true-p evil-mc-mode)
+                           (evil-mc-has-cursors-p))
+                  (evil-mc-undo-all-cursors)))))
 (use-package evil-collection
   :ensure t
   :after evil
@@ -127,8 +133,13 @@
   (setq avy-all-windows-alt t)
   (setq avy-background t)
   (evil-collection-init))
-(use-package evil-mc :ensure t)
-(global-evil-mc-mode 1)
+(use-package evil-mc
+  :ensure t
+  :config
+  (global-evil-mc-mode 1)
+  (define-key evil-normal-state-map (kbd "L") 'evil-multiedit-match-and-next)
+  (define-key evil-normal-state-map (kbd "J") 'evil-mc-make-cursor-move-next-line)
+  (define-key evil-normal-state-map (kbd "K") 'evil-mc-undo-last-added-cursor))
 (use-package evil-multiedit :ensure t)
 (evil-multiedit-mode 1)
 
@@ -182,7 +193,10 @@
   :bind (("M-x" . counsel-M-x)
 	 ("C-b" . counsel-ibuffer)
 	 ("C-f" . counsel-find-file)
-	 ("C-q" . counsel-descbinds)))
+	 ("C-q" . counsel-descbinds)
+   ("M-$" . (lambda () (interactive)
+              (let ((ivy-height 25))
+                (counsel-unicode-char))))))
 
 (use-package counsel-projectile :ensure t)
 
@@ -194,7 +208,9 @@
 (use-package ivy
   :ensure t
   :diminish
-  :bind (("C-s" . swiper)
+  :bind (("C-s" . (lambda () (interactive)
+                    (let ((ivy-height 20))
+                      (swiper))))
 	:map ivy-minibuffer-map
 	("TAB" . ivy-alt-done)
 	("C-l" . ivy-alt-done)
@@ -231,12 +247,20 @@
   ;; Even if I write something with the wrong case, provide the correct casing.
   (company-dabbrev-ignore-case t)
   ;; company completion wait
-  (company-idle-delay 0.2)
+  (company-idle-delay 0.1)
   ;; No company-mode in shell & eshell
   (company-global-modes '(not eshell-mode shell-mode))
   ;; Use company with text and programming modes.
   :hook ((text-mode . company-mode)
-         (prog-mode . company-mode)))
+         (prog-mode . company-mode))
+  :config
+  (setq company-tooltip-limit 20)
+  (setq company-tooltip-maximum-width 50)
+  (setq company-tooltip-maximum-height 12)
+  (custom-set-faces
+    '(company-tooltip ((t (:height 120))))
+    '(company-tooltip-common ((t (:height 120))))))
+
 (use-package company-quickhelp
   :ensure t
   :after company
@@ -259,8 +283,30 @@
           (setq eldoc-box-max-pixel-height 200))
 
 ;; BEGIN LANGUAGES
-(use-package ccls :ensure t)    ;; c/c++
-(use-package go-mode :ensure t) ;; golang
+(use-package ccls :ensure t)       ;; c/c++
+(use-package go-mode :ensure t)    ;; golang
+
+;; BEGIN: RUST (I really dislike all of this, fix later)
+(use-package rust-mode :ensure t)
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :hook (rust-mode . lsp)
+  :init
+  (setq lsp-rust-server 'rust-analyzer)
+  :config
+  (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-position 'top-right-angle)
+  (setq lsp-ui-doc-enable t))
+(use-package flycheck-rust
+  :ensure t
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+;; END: RUST
 
 ;; BEGIN PYTHON
 ;; pipenv support included
@@ -288,6 +334,38 @@
         tide-always-show-documentation t
         tide-server-max-response-length 102400))
 ;; END TYPESCRIPT
+
+;; BEGIN JS (only gs at moment)
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.gs\\'" . js2-mode)
+  :config
+  (setq js2-basic-offset 2))
+;; END JS
+
+;; BEGIN OCAML
+(use-package tuareg
+  :ensure t
+  :mode ("\\.ml[ily]?$" . tuareg-mode)
+  :config
+  (setq tuareg-prettify-symbols-full t)
+  (add-hook 'tuareg-mode-hook 'merlin-mode)
+  (add-hook 'caml-mode-hook 'merlin-mode))
+(use-package merlin
+  :ensure t
+  :after tuareg
+  :hook (tuareg-mode . merlin-mode)
+  :config
+  (setq merlin-command 'opam))
+(use-package ocp-indent
+  :ensure t
+  :after tuareg)
+(use-package utop
+  :ensure t
+  :config
+  (setq utop-command "opam config exec -- utop -emacs")
+  :hook (tuareg-mode . utop-minor-mode))
+;; END OCAML
 ;; END LANGUAGES
 
 ;; CUSTOM MODE LINE

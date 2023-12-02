@@ -61,6 +61,9 @@ tiling_drag modifier titlebar
 # start a terminal
 bindsym $mod+Return exec alacritty
 
+# zoom in
+bindsym $mod+z exec boomer
+
 # kill focused window
 bindsym $mod+x kill
 
@@ -207,6 +210,11 @@ bindsym $mod+r mode "resize"
 
 #client.focused #458588 #458588 #ebdbb2
 #client.unfocused #282828 #282828 #ebdbb2
+client.focused          #92B6F4 #323F4E     #F8F8F2
+client.focused_inactive #3D4C5F #323F4E     #F8F8F2
+client.unfocused        #3D4C5F #323F4E     #56687E
+client.urgent           #EE4F84 #323F4E     #F8F8F2
+client.placeholder      #000000 #0c0c0c     #ffffff
 
 #urgent_workspace   #d79922 #d79921 #ebdbb2
 bar {
