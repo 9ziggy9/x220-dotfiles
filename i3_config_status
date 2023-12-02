@@ -28,18 +28,3 @@ load {
 tztime local {
     format = "%Y-%m-%d %H:%M:%S"
 }
-
-bar {
-    status_command i3status
-    font pango:Iosevka 10
-    colors {
-        background #323F4E
-        statusline #F8F8F2
-        separator  #56687E
-
-        # class      border  background  text
-        focused_workspace   #92B6F4 #323F4E #F8F8F2
-        inactive_workspace  #3D4C5F #323F4E #56687E
-        urgent_workspace    #EE4F84 #323F4E #F8F8F2
-    }
-}
