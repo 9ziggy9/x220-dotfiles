@@ -1,0 +1,1 @@
+("~/source/blackjack/" "~/.dotfiles/" "~/source/inspector/")
