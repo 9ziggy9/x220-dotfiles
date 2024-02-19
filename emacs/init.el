@@ -32,6 +32,27 @@
   (setq undo-tree-history-directory-alist
         `(("." . "~/.config/emacs/.undo-tree-history")))
 
+  ;; windows to frame
+  (setq-default display-buffer-alist
+                '(("\\*compilation\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Messages\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Help\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Backtrace\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Warnings\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Compile-Log\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Flycheck errors\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Calendar\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*scratch\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*Org Agenda\\*" . (display-buffer-pop-up-frame . nil))
+                  ("\\*info\\*" . (display-buffer-pop-up-frame . nil))
+                  ;; Additional entries for helpful command buffers
+                  ("\\*Man .*\\*" . (display-buffer-pop-up-frame . nil)) ;; Man pages
+                  ("\\*shell\\*" . (display-buffer-pop-up-frame . nil)) ;; Shell buffer
+                  ("\\*grep\\*" . (display-buffer-pop-up-frame . nil)) ;; Grep results
+                  ("\\*Occur\\*" . (display-buffer-pop-up-frame . nil)) ;; Occur results
+                  ("\\*Async Shell Command\\*" . (display-buffer-pop-up-frame . nil)) ;; Async commands
+                  ("\\*Helpful .*\\*" . (display-buffer-pop-up-frame . nil)))) ;; Helpful buffer (if you use the `helpful` package)
+
   ;; lines
   (column-number-mode)
   (setq display-line-numbers-type 'relative)
@@ -66,26 +87,16 @@
   ;; use system clipboard
   (setq x-select-enable-clipboard t)
 
+  ;; make new frame
+  (global-set-key (kbd "C-s-<return>") 'make-frame-command)
+
   ;; zoom
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-\-") 'text-scale-decrease))
 
 ;; compile window behavior
 (use-package compile
-  :bind ("C-c C-c" . compile)
-  :config
-  (defun my-display-buffer-use-right-window (buffer alist)
-    "Display BUFFER in the right window, or create one if it doesn't exist."
-    (let ((window (window-in-direction 'right)))
-      (if window
-          (window--display-buffer buffer window 'reuse alist)
-        (display-buffer-in-direction buffer alist))))
-  (setq display-buffer-alist
-        '(("\\*compilation\\*"
-           my-display-buffer-use-right-window
-           (direction . right)
-           (window-width . 0.5)
-           (window . root)))))
+  :bind ("C-c C-c" . compile))
 
 (use-package tab-bar
   :ensure nil ; its built-in
@@ -95,10 +106,10 @@
                           tab-bar-format-tabs
                           tab-bar-format-align-right))
   :bind
-  (("C-x l"        . tab-next)
-   ("C-x h"        . tab-previous)
-   ("C-x q"        . tab-close)
-   ("C-x <return>" . tab-new)))
+  (("C-0"            . tab-next)
+   ("C-9"            . tab-previous)
+   ("C-q"            . tab-close)
+   ("C-<return>"     . tab-new)))
 ;; END: EMACS
 
 (load (expand-file-name "configs/aesthetic-config.el"    user-emacs-directory))

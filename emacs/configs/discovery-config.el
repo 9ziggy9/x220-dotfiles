@@ -27,11 +27,16 @@
   (which-key-setup-side-window-bottom)  ; Setup side window at the bottom
   :diminish which-key-mode)  ; Hide which-key mode from the mode line
 
+(defun my/counsel-find-file-new-frame (x)
+  "Open the selected file from `counsel-find-file` in a new frame."
+  (select-frame (make-frame))
+  (find-file x))
+
 ;; particularly useful for switching themes: M-x counsel themes
 (use-package counsel
   :ensure t
   :diminish counsel-mode
-  :bind (("M-x"     . counsel-M-x)             ; Bind M-x to counsel-M-x
+  :bind (("M-x"       . counsel-M-x)             ; Bind M-x to counsel-M-x
          ("M-s M-b"   . counsel-switch-buffer) ; Enhance file finding
          ("M-s M-f"   . counsel-find-file)     ; Enhance file finding
          ("M-s M-x"   . counsel-M-x-history)   ; Search through recent files
@@ -43,7 +48,7 @@
                         (let ((ivy-height 25))
                           (counsel-unicode-char)))))
   :config
-  (setq ivy-initial-inputs-alist nil))  ; Don't start searches with ^
+  (setq ivy-initial-inputs-alist nil))
 
 (use-package counsel-projectile
   :ensure t

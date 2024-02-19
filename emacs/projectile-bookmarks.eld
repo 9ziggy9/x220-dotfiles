@@ -1,1 +1,1 @@
-("~/source/blackjack/" "~/.dotfiles/" "~/source/inspector/")
+("~/.dotfiles/" "~/source/suss/" "~/source/da-projects/c-arrs/" "~/source/ts_monads/" "~/source/zurround/" "~/source/inspector/" "~/source/blackjack/")
