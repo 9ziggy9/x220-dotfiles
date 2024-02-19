@@ -90,6 +90,11 @@
   ;; make new frame
   (global-set-key (kbd "C-s-<return>") 'make-frame-command)
 
+  ;; shell cmd
+  (global-set-key (kbd "M-!") 'my-shell-command)
+  (global-set-key (kbd "M-|") 'my-shell-command-on-region)
+
+
   ;; zoom
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-\-") 'text-scale-decrease))
@@ -125,6 +130,38 @@
   :load-path "modes/"
   :config
   (ziggy-mode 1))
+
+(defun my-shell-command (command)
+  "Execute a shell command COMMAND and display the output in a new centered frame."
+  (interactive "sShell command: ")
+  (let* ((output-buffer (get-buffer-create "*Shell Command Output*"))
+         (command-output (shell-command-to-string command)))
+    (with-current-buffer output-buffer
+      (erase-buffer)
+      (insert command-output))
+    (display-buffer-pop-up-frame output-buffer
+                                 '((width . 80) ; Adjust the width as needed
+                                   (height . 20) ; Adjust the height as needed
+                                   (left . center)
+                                   (top . center)))))
+
+(defun my-shell-command-on-region (start end command)
+  "Execute a shell command on the selected region and display the output in a new centered frame."
+  (interactive "r\nsShell command on region: ")
+  (let* ((input (buffer-substring-no-properties start end))
+         (output-buffer (get-buffer-create "*Shell Command Output*"))
+         (command-output (with-temp-buffer
+                           (insert input)
+                           (shell-command-on-region (point-min) (point-max) command output-buffer nil)
+                           (buffer-string))))
+    (with-current-buffer output-buffer
+      (erase-buffer)
+      (insert command-output))
+    (display-buffer-pop-up-frame output-buffer
+                                 '((width . 80)  ; Adjust the width as needed
+                                   (height . 20) ; Adjust the height as needed
+                                   (left . center)
+                                   (top . center)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;             use-package keyword synopsis               ;;
