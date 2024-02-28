@@ -71,48 +71,36 @@
 (use-package haskell-mode
   :ensure t
   :config
-  ;; Automatically format code on save using stylish-haskell or brittany
-  (add-hook 'haskell-mode-hook 'haskell-auto-insert-module-template)
-  (add-hook 'haskell-mode-hook #'haskell-indentation-mode)
-  ;; Enable interactive mode for GHC (optional)
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
-;; Optional: Intero for stack-based projects
-;; Uncomment the following lines if you want to use intero
-;; (use-package intero
-;;   :ensure t
-;;   :config
-;;   (add-hook 'haskell-mode-hook 'intero-mode))
+  (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 ;; END HASKELL
 
 ;; BEGIN OCAML
 ;; Tuareg mode for OCaml
 (use-package tuareg
-  :ensure t
-  :config
-  (add-hook 'tuareg-mode-hook
-            (lambda ()
-              ;; Enable automatic indentation
-              (setq indent-line-function 'tuareg-indent-line))))
+  :ensure t)
+  ;; :config
+  ;; (add-hook 'tuareg-mode-hook
+  ;;           (lambda ()
+  ;;             ;; Enable automatic indentation
+  ;;             (setq indent-line-function 'tuareg-indent-line))))
 
 ;; Merlin for enhanced OCaml tooling support (type-checking, completion, etc.)
 (use-package merlin
   :ensure t
   :config
   (add-hook 'tuareg-mode-hook 'merlin-mode)
-  (setq merlin-command 'opam)
-  ;; Use company for completion
-  (use-package company
-    :ensure t
-    :config
-    (add-hook 'merlin-mode-hook 'company-mode))
-  ;; Optionally configure merlin-ac if you prefer auto-complete over company
-  ;; (use-package merlin-ac
-  ;;  :ensure t
-  ;;  :config
-  ;;  (add-hook 'merlin-mode-hook 'merlin-ac-setup))
-  )
+  (setq merlin-command "/home/ziggy/.opam/default/bin/ocamlmerlin")
+  (add-hook 'merlin-mode-hook 'company-mode))
 
 ;; e.g., dune for project management
 (use-package dune
   :ensure t)
 ;; END OCAML
+
+;; BEGIN GRAPHVIZ
+(use-package graphviz-dot-mode
+  :ensure t
+  :mode "\\.dot\\'"
+  :config
+  (setq graphviz-dot-indent-width 4))
+;; END GRAPHVIZ
