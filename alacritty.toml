@@ -1,0 +1,41 @@
+[colors.bright]
+black = "#56687E"
+blue = "#6498EF"
+cyan = "#24D1E7"
+green = "#53E2AE"
+magenta = "#985EFF"
+red = "#EE4F84"
+white = "#E5E5E5"
+yellow = "#F1FF52"
+
+[colors.normal]
+black = "#3D4C5F"
+blue = "#92B6F4"
+cyan = "#87DFEB"
+green = "#A1EFD3"
+magenta = "#BD99FF"
+red = "#F48FB1"
+white = "#F8F8F2"
+yellow = "#F1FA8C"
+
+[colors.primary]
+background = "#323F4E"
+foreground = "#F8F8F2"
+
+[font.normal]
+family = "Iosevka Nerd Font"
+style = "Regular"
+
+[[keyboard.bindings]]
+chars = "\u001B[A"
+key = "K"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[B"
+key = "J"
+mods = "Control"
+
+[shell]
+program = "/usr/bin/tmux"
+args = ["new-session", "-t", "gen", ";", "new-window"]

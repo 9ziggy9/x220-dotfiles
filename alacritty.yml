@@ -33,3 +33,9 @@ font:
 key_bindings:
   - { key: K, mods: Control, chars: "\x1B[A" }
   - { key: J, mods: Control, chars: "\x1B[B" }
+
+shell:
+  program: /usr/bin/tmux
+  args:
+    - new-session
+    - A

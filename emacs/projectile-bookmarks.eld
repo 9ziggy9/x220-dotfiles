@@ -1,1 +1,1 @@
-("~/.tmux/plugins/tmux-fzf/" "~/.dotfiles/" "~/source/da-projects/" "~/source/ocaml-experiments/" "~/scripts/" "~/source/SICP/" "~/source/ts-coroutines/" "~/source/suss/" "~/source/da-projects/c-arrs/" "~/source/ts_monads/" "~/source/zurround/" "~/source/inspector/" "~/source/blackjack/")
+("~/.dotfiles/" "~/.tmux/plugins/tmux-fzf/" "~/source/da-projects/" "~/source/ocaml-experiments/" "~/scripts/" "~/source/SICP/" "~/source/ts-coroutines/" "~/source/suss/" "~/source/da-projects/c-arrs/" "~/source/ts_monads/" "~/source/zurround/" "~/source/inspector/" "~/source/blackjack/")

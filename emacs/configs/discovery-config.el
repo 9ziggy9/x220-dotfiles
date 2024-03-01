@@ -55,9 +55,6 @@
   :config
   (counsel-projectile-mode 1))
 
-(use-package ripgrep
-  :ensure t)
-
 (use-package swiper
   :ensure t
   :bind (("M-s M-d" . swiper)) ; Bind swiper to C-s, replacing default isearch
@@ -78,7 +75,7 @@
   :ensure t
   :diminish ivy-mode
   :config
-  (setq ivy-height 25)
+  (setq ivy-height (round (* 0.40 (frame-height))))
   (ivy-mode 1)
   (setq ivy-wrap t))
 
