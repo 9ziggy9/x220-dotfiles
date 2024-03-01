@@ -1,9 +1,4 @@
 ;; better help windows
-(use-package persistent-scratch
-  :ensure t
-  :config
-  (persistent-scratch-setup-default))
-
 (use-package helpful
   :ensure t
   :custom
