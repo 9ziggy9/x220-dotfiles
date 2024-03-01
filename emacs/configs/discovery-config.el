@@ -1,4 +1,9 @@
 ;; better help windows
+(use-package persistent-scratch
+  :ensure t
+  :config
+  (persistent-scratch-setup-default))
+
 (use-package helpful
   :ensure t
   :custom
@@ -69,15 +74,32 @@
   (setq avy-all-windows 'all-frames)
   (setq avy-all-windows-alt t)
   (setq avy-background t)
-  (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-char-timer))
+  (setq avy-style 'words)
+  ;; (setq avy-keys '(?j ?k ?f ?s))
+
+  (set-face-attribute 'avy-lead-face-0 nil :foreground "#181e26" :background "#f1fa8c")
+  (set-face-attribute 'avy-lead-face-1 nil :foreground "#181e26" :background "#f1fa8c")
+  (set-face-attribute 'avy-lead-face-2 nil :foreground "#181e26" :background "#f1fa8c")
+  (set-face-attribute 'avy-lead-face   nil :foreground "#181e26" :background "#f1fa8c")
+  (set-face-attribute 'avy-background-face nil :foreground "#77818f" :background "#181e26")
+  (set-face-attribute 'avy-goto-char-timer-face nil :foreground "#53e2ae" :background "black")
+
+  (define-key evil-normal-state-map (kbd "SPC") 'evil-avy-goto-char-timer)
+  (define-key evil-normal-state-map (kbd "K")   'evil-avy-goto-line-above)
+  (define-key evil-normal-state-map (kbd "J")   'evil-avy-goto-line-below)
+  (define-key evil-normal-state-map (kbd "W")   'evil-avy-goto-char-in-line))
+
 
 (use-package ivy
   :ensure t
   :diminish ivy-mode
   :config
-  (setq ivy-height (round (* 0.40 (frame-height))))
   (ivy-mode 1)
-  (setq ivy-wrap t))
+  (setq ivy-wrap t)
+  (setq ivy-height 18))
+  ;; frame-height initialization bug, very curious, not sure why
+  ;; see hooks at top of init.el for demonstration.
+  ;; (setq ivy-height (round (* 0.40 (frame-height)))))
 
 (use-package ivy-rich
   :ensure t

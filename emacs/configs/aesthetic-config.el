@@ -10,6 +10,15 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; Show colors when encountering hex color codes
+(use-package rainbow-mode
+  :ensure t
+  :config
+  ;; Optionally, enable rainbow-mode in certain modes automatically
+  (add-hook 'css-mode-hook #'rainbow-mode)
+  (add-hook 'html-mode-hook #'rainbow-mode)
+  (add-hook 'lisp-mode-hook #'rainbow-mode))
+
 ;; CUSTOM MODE LINE
 ;; (use-package powerline-evil
 ;;   :ensure t

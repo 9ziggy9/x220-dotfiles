@@ -1,6 +1,19 @@
 ;; package management
 (load (expand-file-name "configs/packman.el" user-emacs-directory))
 
+;; DEBUG AND TESTING AREA
+;; (add-hook 'after-init-hook
+;;           (lambda ()
+;;             (message "FH:%d EXPECTED:%d" (frame-height) (round (* 0.40 (frame-height))))))
+
+;; (add-hook 'emacs-startup-hook
+;;           (lambda ()
+;;             (message "FH:%d EXPECTED:%d" (frame-height) (round (* 0.40 (frame-height))))))
+
+;; (add-hook 'window-setup-hook
+;;           (lambda ()
+;;             (message "FH:%d EXPECTED:%d" (frame-height) (round (* 0.40 (frame-height))))))
+
 ;; PKG: EMACS
 ;; base configuration
 (use-package emacs ;; note that emacs is a built-in package
@@ -32,26 +45,44 @@
   (setq undo-tree-history-directory-alist
         `(("." . "~/.config/emacs/.undo-tree-history")))
 
-  ;; windows to frame
   (setq-default display-buffer-alist
-                '(("\\*compilation\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Messages\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Help\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Backtrace\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Warnings\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Compile-Log\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Flycheck errors\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Calendar\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*scratch\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*Org Agenda\\*" . (display-buffer-pop-up-frame . nil))
-                  ("\\*info\\*" . (display-buffer-pop-up-frame . nil))
-                  ;; Additional entries for helpful command buffers
-                  ("\\*Man .*\\*" . (display-buffer-pop-up-frame . nil)) ;; Man pages
-                  ("\\*shell\\*" . (display-buffer-pop-up-frame . nil)) ;; Shell buffer
-                  ("\\*grep\\*" . (display-buffer-pop-up-frame . nil)) ;; Grep results
-                  ("\\*Occur\\*" . (display-buffer-pop-up-frame . nil)) ;; Occur results
-                  ("\\*Async Shell Command\\*" . (display-buffer-pop-up-frame . nil)) ;; Async commands
-                  ("\\*Helpful .*\\*" . (display-buffer-pop-up-frame . nil)))) ;; Helpful buffer (if you use the `helpful` package)
+                '(("\\*compilation\\*"         . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ;; ("\\*Messages\\*"            . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                  ;;                                 (reusable-frames . t)))
+                  ("\\*Help\\*"                . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Backtrace\\*"           . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Warnings\\*"            . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Compile-Log\\*"         . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Flycheck errors\\*"     . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Calendar\\*"            . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*scratch\\*"             . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Org Agenda\\*"          . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*info\\*"                . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Man .*\\*"              . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*shell\\*"               . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*grep\\*"                . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Occur\\*"               . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Shell Command Output\\*" . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Async Shell Command\\*" . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
+                  ("\\*Helpful .*\\*"          . ((display-buffer-reuse-window display-buffer-pop-up-frame)
+                                                  (reusable-frames . t)))))
+
 
   ;; lines
   (column-number-mode)
@@ -74,9 +105,11 @@
   ;; (set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
   (set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
   (custom-set-faces
-  '(echo-area ((t (:height 120))))
-  '(minibuffer-prompt ((t (:height 150))))
-  '(mode-line ((t (:height 120)))))
+    '(line-number ((t (:foreground "#8090A0" :weight normal))))
+    '(line-number-current-line ((t (:foreground "#ebedef" :weight bold))))
+    '(echo-area ((t (:height 120))))
+    '(minibuffer-prompt ((t (:height 150))))
+    '(mode-line ((t (:height 120)))))
 
   ;; autopairs
   (electric-pair-mode t)
@@ -93,7 +126,6 @@
   ;; shell cmd
   (global-set-key (kbd "M-!") 'my-shell-command)
   (global-set-key (kbd "M-|") 'my-shell-command-on-region)
-
 
   ;; zoom
   (global-set-key (kbd "C-e") 'move-end-of-line)

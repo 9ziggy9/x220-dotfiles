@@ -4,17 +4,13 @@
 ;; :bind (:map evil-normal-state-map ...) to ensure they only
 ;; apply in the appropriate Evil states.
 
-;; evil-collection
-;; Haven't decided if I am going to use yet.
-;; Basically extends evil to other emacs packages.
-
 (use-package evil
   :ensure t
   :demand t
   :diminish evil-mode
   :bind (("<escape>" . keyboard-escape-quit))
   :init
-  ;; (setq evil-want-keybinding nil) ;; set because we want evil-collection
+  ;; (setq evil-want-keybinding nil)
   :config
   ;; (setq evil-escape-key-sequence "C")
   (setq evil-shift-width 2)

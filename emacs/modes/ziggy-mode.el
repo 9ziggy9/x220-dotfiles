@@ -10,7 +10,7 @@
   ;; window ops
   (define-key ziggy-mode-map (kbd "C-x C-l") 'split-window-right)
   (define-key ziggy-mode-map (kbd "C-x C-j") 'split-window-below)
-  (define-key ziggy-mode-map (kbd "C-x C-x") 'delete-window)
+  (define-key ziggy-mode-map (kbd "C-x C-x") 'kill-buffer-and-window)
   (define-key ziggy-mode-map (kbd "C-l")     'windmove-right)
   (define-key ziggy-mode-map (kbd "C-h")     'windmove-left)
   (define-key ziggy-mode-map (kbd "C-k")     'windmove-up)
