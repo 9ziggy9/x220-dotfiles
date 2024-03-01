@@ -27,6 +27,9 @@
   (define-key evil-visual-state-map (kbd "a")   'align-regexp)
   (define-key evil-normal-state-map (kbd "u")   'undo-fu-only-undo)
   (define-key evil-normal-state-map (kbd "C-r") 'undo-fu-only-redo))
+  (dolist (state '(normal insert visual motion operator))
+    (let ((map (intern (format "evil-%s-state-map" state))))
+      (define-key (eval map) (kbd "C-e") nil)))
 
 (use-package evil-mc
   :ensure t

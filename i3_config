@@ -71,10 +71,23 @@ bindsym $mod+x kill
 #bindsym $mod+p exec --no-startup-id "dmenu_run"
 bindsym $mod+p exec --no-startup-id rofi -show drun
 
+# old
+# bindsym $mod+d [class="dropdown"] scratchpad show; [class="dropdown"] move position center
+# for_window [class="dropdown"] floating enable, resize set 1200 800, move scratchpad
+# Send application windows to the scratchpad based on their title or class
+
 # start scratchpads
-exec --no-startup-id alacritty --class dropdown -e tmux
-bindsym $mod+d [instance="dropdown"] scratchpad show, move position center
-for_window [instance="dropdown"] floating enable, resize set 1200 800, move scratchpad
+# exec --no-startup-id alacritty --class dropdown_tmux -e tmux
+# exec --no-startup-id alacritty --class dropdown_ranger -e ranger
+exec --no-startup-id ~/scripts/i3-runtime/scratchpad-init.sh
+
+# for_window [class="dropdown_tmux"] move scratchpad
+bindsym $mod+d [class="dropdown_tmux"] scratchpad show, resize set 1000 680, move position center
+
+# for_window [class="dropdown_ranger"] move scratchpad
+bindsym $mod+c [class="dropdown_ranger"] scratchpad show, resize set 1000 680, move position center
+
+# Zoom stuff
 for_window [title="Zoom"] floating enable
 for_window [class="zoom"] floating enable 
 

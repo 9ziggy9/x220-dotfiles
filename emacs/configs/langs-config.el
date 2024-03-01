@@ -104,3 +104,8 @@
   :config
   (setq graphviz-dot-indent-width 4))
 ;; END GRAPHVIZ
+
+;; MISC
+(use-package i3wm-config-mode
+  :mode (("\\.i3/config\\'" . i3wm-config-mode)
+          ("i3_config\\'" . i3wm-config-mode)))

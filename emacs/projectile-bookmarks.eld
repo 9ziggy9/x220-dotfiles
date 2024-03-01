@@ -1,1 +1,1 @@
-("~/.dotfiles/" "~/source/ocaml-experiments/" "~/source/SICP/" "~/source/ts-coroutines/" "~/source/da-projects/" "~/source/suss/" "~/source/da-projects/c-arrs/" "~/source/ts_monads/" "~/source/zurround/" "~/source/inspector/" "~/source/blackjack/")
+("~/.dotfiles/" "~/source/da-projects/" "~/source/ocaml-experiments/" "~/scripts/" "~/source/SICP/" "~/source/ts-coroutines/" "~/source/suss/" "~/source/da-projects/c-arrs/" "~/source/ts_monads/" "~/source/zurround/" "~/source/inspector/" "~/source/blackjack/")

@@ -96,6 +96,7 @@
 
 
   ;; zoom
+  (global-set-key (kbd "C-e") 'move-end-of-line)
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-\-") 'text-scale-decrease))
 
