@@ -15,3 +15,8 @@
   :ensure t
   :config
   (setq company-box-enable-icon nil))
+
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :hook ((rust-mode . lsp)))

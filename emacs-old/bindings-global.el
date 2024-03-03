@@ -1,4 +1,5 @@
 ;; Global unset
+(global-unset-key (kbd "C-<return>"))
 (global-unset-key (kbd "C-j"))
 (global-unset-key (kbd "C-k"))
 (global-unset-key (kbd "C-n"))

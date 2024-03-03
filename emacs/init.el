@@ -1,18 +1,14 @@
 ;; package management
 (load (expand-file-name "configs/packman.el" user-emacs-directory))
 
-;; DEBUG AND TESTING AREA
-;; (add-hook 'after-init-hook
-;;           (lambda ()
-;;             (message "FH:%d EXPECTED:%d" (frame-height) (round (* 0.40 (frame-height))))))
-
-;; (add-hook 'emacs-startup-hook
-;;           (lambda ()
-;;             (message "FH:%d EXPECTED:%d" (frame-height) (round (* 0.40 (frame-height))))))
-
-;; (add-hook 'window-setup-hook
-;;           (lambda ()
-;;             (message "FH:%d EXPECTED:%d" (frame-height) (round (* 0.40 (frame-height))))))
+;; Custom functions
+(defvar org/master-org-file "~/org/MASTER.org"
+  "Path to the master org file used as a persistent scratch pad.")
+(defun org/open-master-org (f)
+  "Open the persistent scratch file." (find-file f))
+(defun my/log-debug-msg (s)
+  "Logging for testing hooks and so forth"
+  (message s))
 
 ;; PKG: EMACS
 ;; base configuration
@@ -34,6 +30,10 @@
                 use-dialog-box nil
                 compilation-scroll-output t)
 
+  (add-hook 'emacs-startup-hook (lambda ()
+                                  (my/log-debug-msg "Hello from emacs-startup-hook")
+                                  (org/open-master-org org/master-org-file)))
+
   (set-fringe-mode 10) ;; add small margins in editor.
   (setq help-window-select t) ;; auto focus help window wwhen opened
 
@@ -42,8 +42,8 @@
     `((".*" . ,temporary-file-directory)))
   (setq auto-save-file-name-transforms
     `((".*" ,temporary-file-directory t)))
-  (setq undo-tree-history-directory-alist
-        `(("." . "~/.config/emacs/.undo-tree-history")))
+  ;; (setq undo-tree-history-directory-alist
+  ;;       `(("." . "~/.config/emacs/.undo-tree-history")))
 
   (setq-default display-buffer-alist
                 '(("\\*compilation\\*"         . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
@@ -86,7 +86,7 @@
 
   ;; lines
   (column-number-mode)
-  (setq display-line-numbers-type 'relative)
+  (setq display-line-numbers 'relative)
   (global-display-line-numbers-mode t)
 
   ;; command history
@@ -118,7 +118,8 @@
   (global-auto-revert-mode t)
 
   ;; use system clipboard
-  (setq x-select-enable-clipboard t)
+  ;; (setq x-select-enable-clipboard t) ;; deprecated
+  (setq select-enable-clipboard t)
 
   ;; make new frame
   (global-set-key (kbd "C-s-<return>") 'make-frame-command)
@@ -150,6 +151,8 @@
    ("C-<return>"     . tab-new)))
 ;; END: EMACS
 
+(load (expand-file-name "configs/misc-config.el"         user-emacs-directory))
+(load (expand-file-name "configs/org-config.el"          user-emacs-directory))
 (load (expand-file-name "configs/aesthetic-config.el"    user-emacs-directory))
 (load (expand-file-name "configs/evil-config.el"         user-emacs-directory))
 (load (expand-file-name "configs/discovery-config.el"    user-emacs-directory))
@@ -163,6 +166,7 @@
   :load-path "modes/"
   :config
   (ziggy-mode 1))
+
 
 (defun my-shell-command (command)
   "Execute a shell command COMMAND and display the output in a new centered frame."
@@ -179,7 +183,7 @@
                                    (top . center)))))
 
 (defun my-shell-command-on-region (start end command)
-  "Execute a shell command on the selected region and display the output in a new centered frame."
+  "Execute a shell command on the selected region and push to new frame."
   (interactive "r\nsShell command on region: ")
   (let* ((input (buffer-substring-no-properties start end))
          (output-buffer (get-buffer-create "*Shell Command Output*"))
@@ -195,69 +199,3 @@
                                    (height . 20) ; Adjust the height as needed
                                    (left . center)
                                    (top . center)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;             use-package keyword synopsis               ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; The `use-package` macro in Emacs Lisp is used for concise and organized
-;; management of package configurations. Below are some of its common keywords:
-
-;; :ensure
-;; Ensures that the package is installed. If the package is not available,
-;; use-package will attempt to install it from a configured repository.
-;; Example: (use-package some-package :ensure t)
-
-;; :init
-;; Code in this section is executed before the package is loaded.
-;; It's used for setting variables or running code that needs to be in place
-;; before the package's own initialization.
-;; Example: (use-package some-package :init (setq some-var t))
-
-;; :config
-;; Code in this section is executed after the package is loaded.
-;; This is where you put the bulk of your configuration code.
-;; Example: (use-package some-package :config (some-function-setting))
-
-;; :bind
-;; Defines keybindings for the package.
-;; It can be used globally or within specific modes.
-;; Example: (use-package some-package :bind (("C-c a" . some-action)))
-
-;; :hook
-;; Attaches functions to hooks.
-;; Useful for running code when certain modes or events are activated.
-;; Example: (use-package some-package :hook (some-mode . some-function))
-
-;; :mode
-;; Associates file extensions with a mode provided by the package.
-;; Example: (use-package some-package :mode ("\\.ext\\'" . some-mode))
-
-;; :defer
-;; Delays loading of the package until it's needed.
-;; Useful for reducing startup time.
-;; Example: (use-package some-package :defer t)
-
-;; :demand
-;; Use :demand for essential packages that you want loaded
-;; immediately and are critical to your Emacs setup.
-;; By default, use-package will defer loading of a package
-;; until it is needed.
-;; Example: (use-package some-package :demand t)
-
-;; :commands
-;; Declares commands as autoloads.
-;; Like :defer, this is for delaying loading of the package.
-;; It makes specific functions available as autoloads and loads the package
-;; when they are invoked.
-;; Example: (use-package some-package :commands (some-command))
-
-;; :disabled
-;; Disables loading of the package.
-;; Useful for temporarily turning off a configuration.
-;; Example: (use-package some-package :disabled t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Note: This is not an exhaustive list. use-package has many more
-;; keywords for advanced configurations and use cases.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

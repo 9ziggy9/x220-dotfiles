@@ -14,9 +14,10 @@
   :config
   ;; (setq evil-escape-key-sequence "C")
   (setq evil-shift-width 2)
-  (setq evil-jump-cross-buffers t)
+  ;; (setq evil-jump-cross-buffers t)
   ;; (evil-set-undo-system 'undo-tree)
   (evil-mode 1)
+  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-normal-state-map (kbd "-")   'evil-join)
   (define-key evil-normal-state-map (kbd "C")   'comment-line)
   (define-key evil-visual-state-map (kbd "C")   'comment-or-uncomment-region)

@@ -1,4 +1,4 @@
-GARBAGE=.lsp-session-* .persistent-scratch history places projectile-* recentf transient/ games/
+GARBAGE=.lsp-session-* .persistent-scratch history places projectile-* recentf transient/ games/ auto-save-list/
 
 # COLOR ALIASES
 RED=\033[31m
@@ -17,7 +17,10 @@ define print_in_color
 endef
 
 all: clean
-	$(call print_in_color, $(GREEN), Clean-up successful.)
+	$(call print_in_color,$(GREEN),Clean-up successful ☑.\n)
 
 clean:
-	rm -rf $(GARBAGE)
+	$(call print_in_color,$(CYAN),\n→  Purging garbage files...\n)
+	@printf "$(RED)"
+	@echo $(GARBAGE) | tr ' ' '\n' | xargs -I {} echo "  "⌦"  "{}
+	@rm -rf $(GARBAGE)

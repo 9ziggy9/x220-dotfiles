@@ -23,7 +23,6 @@
   (setq dired-sidebar-width 30)
   (setq dired-sidebar-use-term-integration t)
   (setq dired-sidebar-use-custom-modeline t)
-  (setq dired-sidebar-custom-modeline-format "Dired Sidebar")
   (setq dired-sidebar-use-magit-integration t))
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "C-<return>")
@@ -40,7 +39,6 @@
   _m_: mark         _C_: copy          _n_: next line      _v_: view file
   _u_: unmark       _D_: delete        _p_: previous line  _o_: open other window
   _t_: toggle       _R_: rename        _g_: refresh        _i_: insert subdir
-  _*_: specific     _+_: mkdir         _s_: sort           _I_: image toggle
   _A_: regex        _Z_: compress      _l_: lo             _h_: toggle hidden
   ^ ^               _M_: chmod         ^ ^                 _l_: redisplay
   ^ ^               _G_: chgrp         ^ ^                 _._: hide subdir
@@ -66,7 +64,6 @@
     ("v" dired-view-file)
     ("o" dired-find-file-other-window)
     ("i" dired-maybe-insert-subdir)
-    ("I" dired-toggle-image-preview)
     ("h" dired-omit-mode)
     ("l" dired-do-redisplay)
     ("." dired-hide-subdir)

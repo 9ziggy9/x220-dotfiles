@@ -1,25 +1,27 @@
+;; (use-package flycheck
+;;   :ensure t
+;;   :init (global-flycheck-mode)
+;;   :hook
+;;   (emacs-lisp-mode . (lambda ()
+;;                        (setq-local flycheck-disabled-checkers
+;;                                    '(emacs-lisp-checkdoc))))
+;;   :config
+;;   (setq flycheck-highlighting-mode 'symbols)
+;;   (set-face-attribute 'flycheck-warning nil :foreground "yellow" :background nil :underline nil)
+;;   (set-face-attribute 'flycheck-error nil :foreground "red" :background nil :underline nil))
+
+
 (use-package ccls :ensure t)       ;; c/c++
 (use-package go-mode :ensure t)    ;; golang
-
-;; BEGIN: RUST (I really dislike all of this, fix later)
 (use-package rust-mode :ensure t)
-(use-package lsp-mode
-  :ensure t
-  :commands lsp
-  :hook (rust-mode . lsp)
-  :init
-  (setq lsp-rust-server 'rust-analyzer)
-  :config
-  (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
-(use-package flycheck-rust
-  :ensure t
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-;; END: RUST
 
 ;; BEGIN PYTHON
 ;; pipenv support included
-(use-package python-mode :ensure t)
+(use-package python-mode
+  :ensure t
+  :config
+  (setq python-indent-offset 4))
+
 (use-package pipenv
   :ensure t
   :commands (pipenv-mode pipenv-activate pipenv-run)

@@ -1,0 +1,7 @@
+# -*- mode: org-mode -*-
+# name: src
+# key: src
+# --
+#+BEGIN_SRC $1
+$0
+#+END_SRC

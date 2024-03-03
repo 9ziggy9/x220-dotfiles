@@ -21,7 +21,8 @@
   (package-install 'use-package))
 
 ;; Load and configure 'use-package'.
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
 
 ;; Ensure that packages are automatically installed if they are not already present.
 ;; This is a convenient default that makes sure declared packages are available.

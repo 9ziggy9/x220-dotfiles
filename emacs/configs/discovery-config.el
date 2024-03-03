@@ -15,7 +15,7 @@
   :init
   (which-key-mode)
   :config
-  (setq which-key-show-early-on-C-h-delay 0.8)
+  ;; (setq which-key-show-early-on-C-h-delay 0.8)
   (setq which-key-idle-delay 0.1)  ; Adjust the delay before which-key popup appears
   (setq which-key-popup-type 'side-window)  ; Display in a side window
   (setq which-key-side-window-location 'bottom)  ; Display at the bottom

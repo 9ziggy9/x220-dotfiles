@@ -14,3 +14,11 @@ recentf
 transient
 .undo-tree-history/
 .lsp*
+lsp-session-*
+.persistent-scratch
+history
+places
+projectile-*
+recentf
+transient/
+games/
