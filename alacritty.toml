@@ -37,5 +37,5 @@ key = "J"
 mods = "Control"
 
 [shell]
-program = "/usr/bin/tmux"
-args = ["new-session", "-t", "gen", ";", "new-window"]
+program = "/home/ziggy/.local/bin/zellij"
+# args = ["new-session", "-t", "gen", ";", "new-window"]

@@ -8,6 +8,10 @@
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
+# Remove title bar from tiles
+default_border normal
+default_border pixel 0
+default_floating_border pixel 0
 
 set $mod Mod4
 set $term alacritty
@@ -79,13 +83,15 @@ bindsym $mod+p exec --no-startup-id rofi -show drun
 # start scratchpads
 # exec --no-startup-id alacritty --class dropdown_tmux -e tmux
 # exec --no-startup-id alacritty --class dropdown_ranger -e ranger
-exec --no-startup-id ~/scripts/i3-runtime/scratchpad-init.sh
+exec --no-startup-id ~/scripts/mipad/scratchpad-init.sh
 
-# for_window [class="dropdown_tmux"] move scratchpad
-bindsym $mod+d [class="dropdown_tmux"] scratchpad show, resize set 1000 680, move position center
+for_window [class="dropdown_tmux"] floating enable, resize set 1100 780, move scratchpad
+for_window [class="dropdown_brow"] floating enable, resize set 1100 780, move scratchpad
 
-# for_window [class="dropdown_ranger"] move scratchpad
-bindsym $mod+c [class="dropdown_ranger"] scratchpad show, resize set 1000 680, move position center
+# lock store to start
+bindsym $mod+d      exec ~/scripts/mipad/mipad    > ~/scripts/mipad/i3_exec.log 2>&1
+bindsym $mod+comma  exec ~/scripts/mipad/mipad  1 > ~/scripts/mipad/i3_exec.log 2>&1
+bindsym $mod+period exec ~/scripts/mipad/mipad -1 > ~/scripts/mipad/i3_exec.log 2>&1
 
 # Zoom stuff
 for_window [title="Zoom"] floating enable

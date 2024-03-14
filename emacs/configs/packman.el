@@ -1,5 +1,4 @@
 (require 'package)
-
 ;; Set the package repositories from which Emacs can download and install packages.
 ;; - MELPA: A large repository of community-maintained packages.
 ;; - Org: The repository for Org-mode and related packages.
@@ -21,8 +20,7 @@
   (package-install 'use-package))
 
 ;; Load and configure 'use-package'.
-(eval-when-compile
-  (require 'use-package))
+(eval-when-compile (require 'use-package))
 
 ;; Ensure that packages are automatically installed if they are not already present.
 ;; This is a convenient default that makes sure declared packages are available.

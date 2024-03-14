@@ -20,3 +20,7 @@
   :ensure t
   :commands lsp
   :hook ((rust-mode . lsp)))
+  ;; :init
+  ;; (setq lsp-rust-server 'rust-analyzer)
+  ;; :config
+  ;; (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))

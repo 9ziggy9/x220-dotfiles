@@ -1,0 +1,16 @@
+themes {
+       mine {
+            fg      "#F8F8F2"
+            bg      "#323F4E"
+            black   "#3D4C5F"
+            blue    "#92B6F4"
+            cyan    "#87DFEB"
+            green   "#A1EFD3"
+            magenta "#BD99FF"
+            red     "#F48FB1"
+            white   "#F8F8F2"
+            yellow  "#F1FA8C"
+            orange  "#FACC8C"
+       }
+}
+

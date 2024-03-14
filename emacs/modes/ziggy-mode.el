@@ -1,4 +1,3 @@
-;; be aware; this minor mode will take precedence over all global bindings
 (defvar ziggy-mode-map (make-sparse-keymap)
   "Keymap for \='ziggy-mode\='.")
 

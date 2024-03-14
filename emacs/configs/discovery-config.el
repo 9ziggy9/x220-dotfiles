@@ -1,4 +1,3 @@
-;; better help windows
 (use-package helpful
   :ensure t
   :custom

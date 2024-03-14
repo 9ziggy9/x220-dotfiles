@@ -1,9 +1,3 @@
-;; NOTES
-;; Keybinding Prefix:
-;; If you plan to add more custom keybindings, consider using
-;; :bind (:map evil-normal-state-map ...) to ensure they only
-;; apply in the appropriate Evil states.
-
 (use-package evil
   :ensure t
   :demand t

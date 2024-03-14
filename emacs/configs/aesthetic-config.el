@@ -19,14 +19,6 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
   (add-hook 'html-mode-hook #'rainbow-mode))
 
-;; CUSTOM MODE LINE
-;; (use-package powerline-evil
-;;   :ensure t
-;;   :init 
-;;   (setq powerline-height 25
-;;         powerline-default-separator 'contour)
-;;   :config (powerline-default-theme))
-
 (defun my-powerline-theme ()
   "A powerline theme that removes git info and adds line and column numbers."
   (interactive)
