@@ -38,4 +38,4 @@ mods = "Control"
 
 [shell]
 program = "/home/ziggy/.local/bin/zellij"
-# args = ["new-session", "-t", "gen", ";", "new-window"]
+args = ["attach", "--create", "main"]

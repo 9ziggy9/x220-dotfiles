@@ -16,7 +16,7 @@
 
 (use-package dired-sidebar
   :ensure t
-  :bind (("C-<tab>" . dired-sidebar-toggle-sidebar))
+  :bind (("M-C-<tab>" . dired-sidebar-toggle-sidebar))
   :commands (dired-sidebar-toggle-sidebar)
   :config
   (setq dired-sidebar-theme 'nerd)
