@@ -46,9 +46,8 @@
   ;;       `(("." . "~/.config/emacs/.undo-tree-history")))
 
   (setq-default display-buffer-alist
-                '(
-                  ;; ("\\*compilation\\*"         . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
-                  ;;                                 (reusable-frames . t)))
+                '(("\\*compilation\\*"         . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
+                                                  (reusable-frames . t)))
                   ;; ("\\*Messages\\*"            . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
                   ;;                                 (reusable-frames . t)))
                   ("\\*Help\\*"                . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
@@ -129,9 +128,6 @@
   (global-set-key (kbd "M-!") 'my-shell-command)
   (global-set-key (kbd "M-|") 'my-shell-command-on-region)
 
-  ;; tab between buffers
-  (global-set-key (kbd "M-<tab>") 'evil-switch-to-windows-last-buffer)
-
   ;; zoom
   (global-set-key (kbd "C-e") 'move-end-of-line)
   (global-set-key (kbd "C-=") 'text-scale-increase)
@@ -148,15 +144,9 @@
   (setq tab-bar-format '(tab-bar-format-history
                           tab-bar-format-tabs
                           tab-bar-format-align-right))
-  (setq tab-bar-close-button-show nil)
-  (custom-set-faces
-  '(tab-bar ((t (:inherit mode-line))))
-  '(tab-bar-tab ((t (:inherit mode-line-active :weight bold))))
-  '(tab-bar-tab-inactive ((t (:inherit mode-line-inactive)))))
   :bind
   (("C-0"            . tab-next)
    ("C-9"            . tab-previous)
-   ("C-<tab>"        . tab-next)
    ("C-q"            . tab-close)
    ("C-<return>"     . tab-new)))
 ;; END: EMACS

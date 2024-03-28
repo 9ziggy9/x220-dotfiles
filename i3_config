@@ -12,6 +12,7 @@
 default_border normal
 default_border pixel 0
 default_floating_border pixel 0
+new_window pixel 1
 
 set $mod Mod4
 set $term alacritty
@@ -87,6 +88,9 @@ exec --no-startup-id ~/scripts/mipad/scratchpad-init.sh
 
 for_window [class="dropdown_tmux"] floating enable, resize set 1100 780, move scratchpad
 for_window [class="dropdown_brow"] floating enable, resize set 1100 780, move scratchpad
+
+# dev of projects
+for_window [title="^haskell-particles"] floating enable
 
 # lock store to start
 bindsym $mod+d      exec ~/scripts/mipad/mipad    > ~/scripts/mipad/i3_exec.log 2>&1

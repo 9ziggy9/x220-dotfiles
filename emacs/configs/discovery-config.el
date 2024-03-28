@@ -26,34 +26,7 @@
   (which-key-setup-side-window-bottom)  ; Setup side window at the bottom
   :diminish which-key-mode)  ; Hide which-key mode from the mode line
 
-(defun my/counsel-find-file-new-frame (x)
-  "Open the selected file from `counsel-find-file` in a new frame."
-  (select-frame (make-frame))
-  (find-file x))
-
 ;; particularly useful for switching themes: M-x counsel themes
-(use-package counsel
-  :ensure t
-  :diminish counsel-mode
-  :bind (("M-x"       . counsel-M-x)             ; Bind M-x to counsel-M-x
-         ("M-s M-b"   . counsel-switch-buffer) ; Enhance file finding
-         ("M-s M-f"   . counsel-find-file)     ; Enhance file finding
-         ("M-s M-x"   . counsel-M-x-history)   ; Search through recent files
-         ("M-s M-G"   . counsel-git)           ; Search for files in git repo
-         ("M-s M-g"   . counsel-rg)            ; Search with ripgrep
-         ("M-s M-c"   . counsel-locate)        ; Use locate to find files
-         ("M-s M-!"   . (lambda () (interactive)
-                        "Pick unicode char"
-                        (let ((ivy-height 25))
-                          (counsel-unicode-char)))))
-  :config
-  (setq ivy-initial-inputs-alist nil))
-
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-mode 1))
-
 (use-package swiper
   :ensure t
   :bind (("M-s M-d" . swiper)) ; Bind swiper to C-s, replacing default isearch
@@ -82,23 +55,3 @@
   (define-key evil-normal-state-map (kbd "K")   'evil-avy-goto-line-above)
   (define-key evil-normal-state-map (kbd "J")   'evil-avy-goto-line-below)
   (define-key evil-normal-state-map (kbd "W")   'evil-avy-goto-char-in-line))
-
-
-(use-package ivy
-  :ensure t
-  :diminish ivy-mode
-  :config
-  (ivy-mode 1)
-  (setq ivy-wrap t)
-  (setq ivy-height 18))
-  ;; frame-height initialization bug, very curious, not sure why
-  ;; see hooks at top of init.el for demonstration.
-  ;; (setq ivy-height (round (* 0.40 (frame-height)))))
-
-(use-package ivy-rich
-  :ensure t
-  :after ivy
-  :config
-  (ivy-rich-mode 1)
-  (setq ivy-rich-path-style 'abbrev)
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))

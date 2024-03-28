@@ -11,10 +11,17 @@
 ;;   (set-face-attribute 'flycheck-warning nil :foreground "yellow" :background nil :underline nil)
 ;;   (set-face-attribute 'flycheck-error nil :foreground "red" :background nil :underline nil))
 
+;; No more LSP-mode!!!
+(use-package eglot
+  :ensure t
+  :commands eglot eglot-ensure)
 
 (use-package ccls :ensure t)       ;; c/c++
 (use-package go-mode :ensure t)    ;; golang
-(use-package rust-mode :ensure t)
+
+(use-package rust-mode
+  :ensure t
+  :hook (rust-mode . eglot-ensure))
 
 ;; BEGIN PYTHON
 ;; pipenv support included
@@ -34,17 +41,11 @@
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx?\\'" . typescript-mode))
+  :hook (typescript-mode . eglot-ensure)
   :config
-  (setq typescript-indent-level 2))
-(use-package tide
-  :ensure t
-  :after typescript-mode
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode))
-  :config
-  (setq tide-completion-ignore-case t
-        tide-always-show-documentation t
-        tide-server-max-response-length 102400))
+  (setq typescript-indent-level 2)
+  (add-hook 'typescript-mode-hook (lambda ()
+                (add-hook 'post-command-hook 'eglot-help-at-point nil t))))
 ;; END TYPESCRIPT
 
 ;; BEGIN JS (only gs at moment)
@@ -73,8 +74,7 @@
 ;; Haskell mode
 (use-package haskell-mode
   :ensure t
-  :config
-  (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
+  :hook ((haskell-mode . interactive-haskell-mode)))
 ;; END HASKELL
 
 ;; BEGIN OCAML

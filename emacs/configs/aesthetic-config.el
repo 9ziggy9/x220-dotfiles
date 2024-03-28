@@ -1,3 +1,11 @@
+(use-package whitespace
+  :ensure t
+  :config
+  (setq whitespace-line-column 80  ; Set the column after which to highlight
+        whitespace-style '(face lines-tail))  ; Highlight only the tail of lines
+  :hook ((prog-mode . whitespace-mode)
+         (text-mode . whitespace-mode)))
+
 (use-package doom-themes
   :ensure t
   :config
