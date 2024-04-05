@@ -1,16 +1,15 @@
 themes {
        mine {
-            fg      "#F8F8F2"
-            bg      "#323F4E"
-            black   "#3D4C5F"
-            blue    "#92B6F4"
-            cyan    "#87DFEB"
-            green   "#A1EFD3"
-            magenta "#BD99FF"
-            red     "#F48FB1"
-            white   "#F8F8F2"
-            yellow  "#F1FA8C"
-            orange  "#FACC8C"
+            fg      "#FFFFFF"
+            bg      "#000000"
+            black   "#000000"
+            blue    "#8BE9FD"
+            cyan    "#8BE9FD"
+            green   "#50FA7B"
+            magenta "#FF79C6"
+            red     "#FF5555"
+            white   "#FFFFFF"
+            yellow  "#FFB86C"
+            orange  "#FFB86C"
        }
 }
-

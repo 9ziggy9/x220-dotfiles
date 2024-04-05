@@ -11,7 +11,7 @@
   :config
   (setq doom-themes-enable-bold t
       doom-themes-enable-italic t)
-  (load-theme 'doom-ephemeral t))
+  (load-theme 'doom-homage-black t))
 
 ;; RAINBOW PARENS
 (use-package rainbow-delimiters

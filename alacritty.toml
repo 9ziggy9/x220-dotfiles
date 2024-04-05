@@ -1,27 +1,31 @@
-[colors.bright]
-black = "#56687E"
-blue = "#6498EF"
-cyan = "#24D1E7"
-green = "#53E2AE"
-magenta = "#985EFF"
-red = "#EE4F84"
-white = "#E5E5E5"
-yellow = "#F1FF52"
-
-[colors.normal]
-black = "#3D4C5F"
-blue = "#92B6F4"
-cyan = "#87DFEB"
-green = "#A1EFD3"
-magenta = "#BD99FF"
-red = "#F48FB1"
-white = "#F8F8F2"
-yellow = "#F1FA8C"
-
+# Homage Black Theme colors for Alacritty
 [colors.primary]
-background = "#323F4E"
-foreground = "#F8F8F2"
+background = '#000000'  # Deep black
+foreground = '#FFFFFF'  # Bright white
 
+# Normal colors
+[colors.normal]
+black   = '#000000'
+red     = '#FF5555'  # Accent color 1: Bright red
+green   = '#50FA7B'  # Accent color 2: Neon green
+yellow  = '#FFB86C'  # Preprocessor/Orange
+blue    = '#8BE9FD'  # Number/Blue
+magenta = '#FF79C6'  # String/Pink
+cyan    = '#8BE9FD'  # Reused Number/Blue for consistency
+white   = '#FFFFFF'
+
+# Bright colors
+[colors.bright]
+black   = '#121212'
+red     = '#FF5555'  # Repeating accent color for bright red
+green   = '#50FA7B'  # Repeating accent green for consistency
+yellow  = '#FFB86C'  # Same orange for visibility
+blue    = '#8BE9FD'  # Consistent with 'normal' blue
+magenta = '#FF79C6'  # Consistent with 'normal' magenta
+cyan    = '#8BE9FD'  # Cyan as in 'normal'
+white   = '#F8F8F2'  # Soft white for operators
+
+# Font and keyboard bindings remain unchanged from your provided template
 [font.normal]
 family = "Iosevka Nerd Font"
 style = "Regular"
@@ -35,7 +39,3 @@ mods = "Control"
 chars = "\u001B[B"
 key = "J"
 mods = "Control"
-
-[shell]
-program = "/home/ziggy/.local/bin/zellij"
-args = ["attach", "--create", "main"]

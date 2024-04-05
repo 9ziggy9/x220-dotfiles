@@ -1,22 +1,3 @@
-(defun org/save-top-level-heading()
-  "Save all top-level headings in the current Org file to individual Org files."
-  (interactive)
-  (let ((output-dir "~/org/"))
-    (unless (file-exists-p output-dir) (make-directory output-dir t))
-    (org-map-entries (lambda ()
-      (let* ((heading (org-get-heading t t t t))
-             (filename
-              (concat output-dir (replace-regexp-in-string "[/\\?%*:|\"<>]" "_" heading) ".org")))
-        (org-mark-subtree)
-        (write-region (point) (mark) filename)
-        (deactivate-mark))) "LEVEL=1" 'file)))
-
-(defun org/save-master ()
-  "Check if current file is MASTER.org and save"
-  (when (string= (buffer-file-name) (expand-file-name org/master-org-file))
-        (let ((org-confirm-babel-evaluate nil))
-          (org-babel-tangle))))
-
 (defun org/font-setup ()
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
@@ -53,11 +34,7 @@
         org-edit-src-content-indentation 0
         org-src-window-setup 'other-frame
         org-confirm-babel-evaluate nil)
-
-  (org/font-setup)
-
-  (add-hook 'org-mode-hook (lambda ()
-                             (add-hook 'after-save-hook #'org/save-master))))
+  (org/font-setup))
 
 (use-package org-bullets
   :ensure t
@@ -66,3 +43,8 @@
   :config
   (setq org-bullets-bullet-list
         '("◉" "○" "●" "○" "●" "○" "●")))
+
+(use-package toc-org
+  :ensure t
+  :after org
+  :hook (org-mode . toc-org-enable))

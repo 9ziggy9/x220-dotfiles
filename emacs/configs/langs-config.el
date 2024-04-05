@@ -11,12 +11,27 @@
 ;;   (set-face-attribute 'flycheck-warning nil :foreground "yellow" :background nil :underline nil)
 ;;   (set-face-attribute 'flycheck-error nil :foreground "red" :background nil :underline nil))
 
+
+;; access docs
+(use-package eldoc-box
+  :bind
+  (("M-h" . eldoc-box-help-at-point)))
+
 ;; No more LSP-mode!!!
 (use-package eglot
   :ensure t
-  :commands eglot eglot-ensure)
+  :commands eglot eglot-ensure
+  :bind (:map eglot-mode-map ("M-H" . eglot-code-actions))
+  :config 
+  (setq eglot-ignored-server-capabilities
+    '(:inlayHintProvider :hoverProvider ))
+  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+  (add-to-list 'eglot-server-programs '(c-mode . ("clangd"))))
 
-(use-package ccls :ensure t)       ;; c/c++
+(use-package cc-mode
+  :ensure t
+  :hook (c-mode . eglot-ensure))
+
 (use-package go-mode :ensure t)    ;; golang
 
 (use-package rust-mode
@@ -112,3 +127,8 @@
 (use-package i3wm-config-mode
   :mode (("\\.i3/config\\'" . i3wm-config-mode)
           ("i3_config\\'" . i3wm-config-mode)))
+
+(use-package dockerfile-mode
+  :ensure t
+  :mode "Dockerfile\\'")
+;; END MISC

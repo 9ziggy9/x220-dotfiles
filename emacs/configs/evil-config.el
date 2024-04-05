@@ -1,3 +1,18 @@
+(use-package vimish-fold
+  :ensure t
+  :after evil
+  :config
+  (vimish-fold-global-mode 1)
+  (evil-define-key 'normal global-map
+    "zf" 'vimish-fold
+    "zd" 'vimish-fold-delete
+    "zo" 'vimish-fold-unfold
+    "zO" 'vimish-fold-unfold-all
+    "zc" 'vimish-fold-refold
+    "zC" 'vimish-fold-refold-all
+    "za" 'vimish-fold-toggle
+    "zA" 'vimish-fold-toggle-all))
+
 (use-package evil
   :ensure t
   :demand t
@@ -6,6 +21,13 @@
   :init
   ;; (setq evil-want-keybinding nil)
   :config
+  (add-to-list 'evil-fold-list
+               '((vimish-fold-mode)
+                 :open-all vimish-fold-unfold-all
+                 :close-all vimish-fold-refold-all
+                 :toggle vimish-fold-toggle
+                 :open vimish-fold-unfold
+                 :close vimish-fold-refold))
   ;; (setq evil-escape-key-sequence "C")
   (setq evil-shift-width 2)
   ;; (setq evil-jump-cross-buffers t)

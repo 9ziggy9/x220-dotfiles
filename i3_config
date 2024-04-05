@@ -242,13 +242,13 @@ bar {
     status_command i3status -c ~/.config/i3status/config
     font pango:Iosevka 10
     colors {
-        background #323F4E
-        statusline #F8F8F2
-        separator  #56687E
+        background #000000  # Deep black, for the bar background
+        statusline #FFFFFF  # Bright white, for the status line text
+        separator  #555555  # A medium gray, for separators
 
-        # class      border  background  text
-        focused_workspace   #92B6F4 #323F4E #F8F8F2
-        inactive_workspace  #3D4C5F #323F4E #56687E
-        urgent_workspace    #EE4F84 #323F4E #F8F8F2
+        # class                border    background  text
+        focused_workspace   #8BE9FD #000000 #FFFFFF  # Focused workspace: bright blue border, black background, white text
+        inactive_workspace  #555555 #000000 #555555  # Inactive workspace: gray for a muted appearance
+        urgent_workspace    #FF5555 #000000 #FFFFFF  # Urgent workspace: bright red border for attention, black background, white text
     }
 }
