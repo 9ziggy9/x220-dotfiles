@@ -1,8 +1,3 @@
-;; debugging purposes
-(use-package command-log-mode
-  :ensure t
-  :commands (command-log-mode clm/open-command-log-buffer))
-
 (use-package helpful
   :ensure t
   :custom

@@ -1,7 +1,7 @@
 ;; package management
 (load (expand-file-name "configs/packman.el" user-emacs-directory))
 
-;; Custom functions
+;; some custom functions
 (defvar org/master-org-file "~/org/MASTER.org"
   "Path to the master org file used as a persistent scratch pad.")
 (defun org/open-master-org (f)
@@ -10,16 +10,20 @@
   "Logging for testing hooks and so forth"
   (message s))
 
-;; PKG: EMACS
-;; base configuration
+;; begin: base configuration
+;; use emacs
 (use-package emacs ;; note that emacs is a built-in package
-  :ensure t
+  ;; shortcut to config
+  :bind
+  ("<f12>" . (lambda () (interactive)
+               (let ((config-dir (expand-file-name "~/.config/emacs/")))
+                 (find-file (read-file-name "configs: " config-dir)))))
   :config
-  ;; disable ugly GUI elements
+  ;; cleaner ui
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
   (menu-bar-mode -1)
-
+  ;; sane defaults
   (setq-default inhibit-startup-screen t
                 make-backup-files nil
                 tab-width 2
@@ -29,27 +33,24 @@
                 indent-tabs-mode nil
                 use-dialog-box nil
                 compilation-scroll-output t)
-
+  ;; start up hook example
   (add-hook 'emacs-startup-hook (lambda ()
-                                  (my/log-debug-msg "Hello from emacs-startup-hook")
+                                  (my/log-debug-msg
+                                   "Welcome to emacs, ziggy!")
                                   (org/open-master-org org/master-org-file)))
-
-  (set-fringe-mode 10) ;; add small margins in editor.
-  (setq help-window-select t) ;; auto focus help window wwhen opened
-
+  ;; small margins
+  (set-fringe-mode 10)
+  ;; auto focus new windows
+  (setq help-window-select t)
   ;; prevent save file clutter
   (setq backup-directory-alist
     `((".*" . ,temporary-file-directory)))
   (setq auto-save-file-name-transforms
     `((".*" ,temporary-file-directory t)))
-  ;; (setq undo-tree-history-directory-alist
-  ;;       `(("." . "~/.config/emacs/.undo-tree-history")))
-
+  ;; display buffer alist
   (setq-default display-buffer-alist
                 '(("\\*compilation\\*"         . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
                                                   (reusable-frames . t)))
-                  ;; ("\\*Messages\\*"            . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
-                  ;;                                 (reusable-frames . t)))
                   ("\\*Help\\*"                . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
                                                   (reusable-frames . t)))
                   ("\\*Backtrace\\*"           . ((display-buffer-reuse-window display-buffer-pop-up-frame) 
@@ -82,24 +83,20 @@
                                                   (reusable-frames . t)))
                   ("\\*Helpful .*\\*"          . ((display-buffer-reuse-window display-buffer-pop-up-frame)
                                                   (reusable-frames . t)))))
-
-
   ;; lines
   (column-number-mode)
   (setq display-line-numbers 'relative)
   (global-display-line-numbers-mode t)
-
   ;; command history
   (setq history-length 100)
   (savehist-mode 1)
   (save-place-mode 1)
-
+  ;; custom variable cleanliness
   ;; prevents customization varibles being put into out init.el!
   ;; keeps a nice clean init.el, with automatic code generated from
   ;; things such as use-package.
   (setq custom-file (locate-user-emacs-file "custom-vars.el"))
   (load custom-file 'noerror 'nomessage)
-
   ;; font
   ;; TODO: broken because env, should be fine when made default
   ;; (set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
@@ -110,33 +107,27 @@
     '(echo-area ((t (:height 120))))
     '(minibuffer-prompt ((t (:height 150))))
     '(mode-line ((t (:height 120)))))
-
   ;; autopairs
   (electric-pair-mode t)
-
   ;; automatically refresh buffers when files change on disk
   (global-auto-revert-mode t)
-
   ;; use system clipboard
-  ;; (setq x-select-enable-clipboard t) ;; deprecated
   (setq select-enable-clipboard t)
-
-  ;; make new frame
-  (global-set-key (kbd "C-s-<return>") 'make-frame-command)
-
   ;; shell cmd
   (global-set-key (kbd "M-!") 'my-shell-command)
   (global-set-key (kbd "M-|") 'my-shell-command-on-region)
-
+  ;; make frame
+  (global-set-key (kbd "C-s-<return>") 'make-frame-command)
   ;; zoom
-  (global-set-key (kbd "C-e") 'move-end-of-line)
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-\-") 'text-scale-decrease))
+;; end: base config
 
-;; compile window behavior
+;; use compile (window behavior)
 (use-package compile
   :bind ("C-c C-c" . compile))
 
+;; use tab-bar (tabbing buffers)
 (use-package tab-bar
   :ensure nil ; its built-in
   :config
@@ -146,11 +137,11 @@
                           tab-bar-format-align-right))
   :bind
   (("C-0"            . tab-next)
-   ("C-9"            . tab-previous)
-   ("C-q"            . tab-close)
-   ("C-<return>"     . tab-new)))
-;; END: EMACS
+  ("C-9"            . tab-previous)
+  ("C-q"            . tab-close)
+  ("C-<return>"     . tab-new)))
 
+;; imports
 (load (expand-file-name "configs/misc-config.el"         user-emacs-directory))
 (load (expand-file-name "configs/org-config.el"          user-emacs-directory))
 (load (expand-file-name "configs/aesthetic-config.el"    user-emacs-directory))
@@ -160,14 +151,14 @@
 (load (expand-file-name "configs/file-manager-config.el" user-emacs-directory))
 (load (expand-file-name "configs/langs-config.el"        user-emacs-directory))
 
-;; CUSTOM BINDINGS
+;; use ziggy-mode (my code)
 (use-package ziggy-mode
   :ensure nil
   :load-path "modes/"
   :config
   (ziggy-mode 1))
 
-
+;; more custom functions
 (defun my-shell-command (command)
   "Execute a shell command COMMAND and display the output in a new centered frame."
   (interactive "sShell command: ")

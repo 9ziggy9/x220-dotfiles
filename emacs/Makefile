@@ -1,4 +1,5 @@
-GARBAGE=.lsp-session-* .persistent-scratch history places projectile-* recentf transient/ games/ auto-save-list/
+GARBAGE=.lsp-session-* .persistent-scratch history places projectile-* recentf transient/ games/ auto-save-list/ vimish-fold/
+DANGEROUS=./elpa ./snippets vimish-fold/ ./custom-vars.el
 
 # COLOR ALIASES
 RED=\033[31m
@@ -24,3 +25,9 @@ clean:
 	@printf "$(RED)"
 	@echo $(GARBAGE) | tr ' ' '\n' | xargs -I {} echo "  "⌦"  "{}
 	@rm -rf $(GARBAGE)
+
+hard_reset:
+	$(call print_in_color,$(RED),\n→  HARD REST: purging ALL packages...\n)
+	@printf "$(RED)"
+	@echo $(GARBAGE) | tr ' ' '\n' | xargs -I {} echo "  "⌦"  "{}
+	@rm -rf $(GARBAGE) $(DANGEROUS)

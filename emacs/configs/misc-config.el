@@ -14,3 +14,9 @@
   (with-eval-after-load 'yasnippet
       (define-key yas-keymap (kbd "<return>") 'yas-next-field-or-maybe-expand))
   (yas-reload-all))
+
+(use-package command-log-mode
+  :ensure t
+  :init
+  (setq command-log-mode-open-log-turns-on-mode t
+        command-log-mode-auto-show t))
