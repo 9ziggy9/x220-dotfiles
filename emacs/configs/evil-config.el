@@ -24,21 +24,35 @@
 (use-package vimish-fold
   :ensure t
   :after evil
-  :commands (vimish-fold-mode vimish-fold-global-mode)
-  :bind (("<backtab>". vimish-fold-delete)
-          ("M-<tab>" . vimish-fold)
-          :map vimish-fold-folded-keymap
-          ("<backtab>" . vimish-fold-delete)
-          ("<tab>" . vimish-fold-unfold)
-          :map vimish-fold-unfolded-keymap
-          ("<tab>" . vimish-fold-refold)))
+  :preface
+  (defun zig/vimish-fold-region ()
+    (interactive)
+    (when (region-active-p)
+      (let ((beg (region-beginning)) (end (region-end)))
+        (if (= (char-before end) ?\n) (setq end (1- end)))
+        (vimish-fold beg end)
+        (evil-normal-state))))
+  :config
+  (vimish-fold-global-mode 1)
+  (setq vimish-fold-persist-on-saving t
+        vimish-fold-include-last-empty-line t)
+  (define-key evil-visual-state-map (kbd "<tab>")   'zig/vimish-fold-region)
+  (define-key evil-normal-state-map (kbd "<tab>")   'vimish-fold-toggle)
+  (define-key evil-normal-state-map (kbd "M-<tab>") 'vimish-fold-delete))
+
+(use-package evil-vimish-fold
+  :ensure t
+  :after (evil vimish-fold)
+  :config
+  (evil-vimish-fold-mode 1))
 
 (use-package evil-mc
   :ensure t
   :diminish evil-mc-mode
   :config
   (global-evil-mc-mode 1)
-  (define-key evil-visual-state-map (kbd "<return>") 'evil-mc-make-cursor-in-visual-selection-beg)
+  (define-key evil-visual-state-map
+              (kbd "<return>") 'evil-mc-make-cursor-in-visual-selection-beg)
   (add-hook 'evil-visual-state-entry-hook 'zig/clear-all-cursors))
 
 (use-package evil-multiedit
