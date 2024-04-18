@@ -32,13 +32,14 @@
         (if (= (char-before end) ?\n) (setq end (1- end)))
         (vimish-fold beg end)
         (evil-normal-state))))
+  :bind (:map evil-visual-state-map
+         ("<tab>"   . zig/vimish-fold-region)
+         :map evil-normal-state-map
+         ("<tab>"   . 'vimish-fold-toggle)
+         ("M-<tab>" . 'vimish-fold-delete))
   :config
   (vimish-fold-global-mode 1)
-  (setq vimish-fold-persist-on-saving t
-        vimish-fold-include-last-empty-line t)
-  (define-key evil-visual-state-map (kbd "<tab>")   'zig/vimish-fold-region)
-  (define-key evil-normal-state-map (kbd "<tab>")   'vimish-fold-toggle)
-  (define-key evil-normal-state-map (kbd "M-<tab>") 'vimish-fold-delete))
+  (setq vimish-fold-persist-on-saving t))
 
 (use-package evil-vimish-fold
   :ensure t
