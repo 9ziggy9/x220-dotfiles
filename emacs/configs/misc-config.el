@@ -20,3 +20,14 @@
   :init
   (setq command-log-mode-open-log-turns-on-mode t
         command-log-mode-auto-show t))
+
+(use-package expand-region
+  :ensure t
+  :bind (("H-e" . er/expand-region))
+  :config)
+
+;; WINDOW MANAGEMENT
+;; (use-package perspective
+;;   :ensure t
+;;   :init
+;;   (persp-mode))

@@ -35,6 +35,23 @@
 (global-set-key (kbd "C-k") 'windmove-up)
 (global-set-key (kbd "C-d") 'evil-scroll-down)
 (global-set-key (kbd "C-u") 'evil-scroll-up)
+(global-set-key (kbd "C-<return>") #'(lambda () (interactive)
+                                      (split-window-right)
+                                      (other-window 1)
+                                      (zig/balance-windows-horizontally)))
+(global-set-key (kbd "H-<tab>") 'previous-window-any-frame)
 
 ;; SHELL
 (global-set-key (kbd "C-\\") 'shell/ex-on-reg-and-frame)
+
+;; ZOOM
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C-\-") 'text-scale-decrease)
+
+(defun zig/balance-windows-horizontally ()
+  "Balance window widths equally."
+  (let ((windows (window-list))
+        (frame-width (frame-width)))
+    (dolist (window windows)
+      (let ((window-width (floor (/ frame-width (length windows)))))
+        (window-resize window (- window-width (window-width window)) t)))))

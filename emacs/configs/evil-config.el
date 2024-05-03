@@ -39,7 +39,8 @@
          ("M-<tab>" . 'vimish-fold-delete))
   :config
   (vimish-fold-global-mode 1)
-  (setq vimish-fold-persist-on-saving t))
+  (setq vimish-fold-persist-on-saving t
+        vimish-fold-include-last-empty-line t))
 
 (use-package evil-vimish-fold
   :ensure t

@@ -1,0 +1,46 @@
+;; -*- mode: emacs-lisp; eval: (progn (pp-buffer) (indent-buffer)) -*-
+((def-persp nil
+            ((def-buffer "misc-config.el" "/home/ziggy/.dotfiles/emacs/configs/misc-config.el" emacs-lisp-mode)
+             (def-buffer "init.el" "/home/ziggy/.dotfiles/emacs/init.el" emacs-lisp-mode)
+             (def-buffer "MASTER.org" "/home/ziggy/org/MASTER.org" org-mode)
+             (def-buffer "emacs" "~/.dotfiles/emacs/" dired-mode))
+            (def-wconf
+             (((min-height . 4)
+               (min-width . 10)
+               (min-height-ignore . 3)
+               (min-width-ignore . 5)
+               (min-height-safe . 1)
+               (min-width-safe . 2)
+               (min-pixel-height . 92)
+               (min-pixel-width . 90)
+               (min-pixel-height-ignore . 69)
+               (min-pixel-width-ignore . 45)
+               (min-pixel-height-safe . 23)
+               (min-pixel-width-safe . 18))
+              leaf
+              (pixel-width . 2558)
+              (pixel-height . 1009)
+              (total-width . 284)
+              (total-height . 43)
+              (normal-height . 1.0)
+              (normal-width . 1.0)
+              (buffer "misc-config.el"
+                      (selected . t)
+                      (hscroll . 0)
+                      (fringes 10 10 nil nil)
+                      (margins nil)
+                      (scroll-bars nil 0 t nil 0 t nil)
+                      (vscroll . 0)
+                      (dedicated)
+                      (point . 609)
+                      (start . 1))
+              (prev-buffers
+               ("init.el" 1 714)
+               ("*scratch*" 1 146))))
+            (def-params nil)
+            t nil nil)
+ (def-persp "hello_persp" nil
+            (def-wconf nil)
+            (def-params
+             ((persp-file . "~/.config/emacs/persp-confs/persp-auto-save")))
+            nil nil nil))

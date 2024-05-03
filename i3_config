@@ -89,6 +89,8 @@ exec --no-startup-id ~/scripts/mipad/scratchpad-init.sh
 for_window [class="dropdown_tmux"] floating enable, resize set 1100 780, move scratchpad
 for_window [class="dropdown_brow"] floating enable, resize set 1100 780, move scratchpad
 
+assign [title="ppong"] 2
+
 # dev of projects
 for_window [title="^haskell-particles"] floating enable
 for_window [title="^gtk_test"] floating enable

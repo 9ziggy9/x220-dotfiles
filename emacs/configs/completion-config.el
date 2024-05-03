@@ -41,17 +41,15 @@
 (use-package counsel
   :ensure t
   :diminish counsel-mode
-  :bind (("M-x"       . counsel-M-x)             ; Bind M-x to counsel-M-x
+  :bind (("M-x"       . counsel-M-x)           ; Bind M-x to counsel-M-x
          ("M-s M-b"   . counsel-switch-buffer) ; Enhance file finding
          ("M-s M-f"   . counsel-find-file)     ; Enhance file finding
          ("M-s M-x"   . counsel-M-x-history)   ; Search through recent files
          ("M-s M-G"   . counsel-git)           ; Search for files in git repo
          ("M-s M-g"   . counsel-rg)            ; Search with ripgrep
          ("M-s M-c"   . counsel-locate)        ; Use locate to find files
-         ("M-s M-!"   . (lambda () (interactive)
-                        "Pick unicode char"
-                        (let ((ivy-height 25))
-                          (counsel-unicode-char)))))
+         ("M-s M-!"   . (lambda () (interactive) (let ((ivy-height 25))
+                                                   (counsel-unicode-char)))))
   :config
   (setq ivy-initial-inputs-alist nil))
 
