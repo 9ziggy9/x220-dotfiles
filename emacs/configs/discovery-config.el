@@ -53,5 +53,4 @@
 
   (define-key evil-normal-state-map (kbd "SPC") 'evil-avy-goto-char-timer)
   (define-key evil-normal-state-map (kbd "K")   'evil-avy-goto-line-above)
-  (define-key evil-normal-state-map (kbd "J")   'evil-avy-goto-line-below)
-  (define-key evil-normal-state-map (kbd "W")   'evil-avy-goto-char-in-line))
+  (define-key evil-normal-state-map (kbd "J")   'evil-avy-goto-line-below))

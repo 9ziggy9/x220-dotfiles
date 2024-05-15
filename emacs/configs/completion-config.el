@@ -11,13 +11,23 @@
   :after tree-sitter)
 
 ;; autocompletion
-(use-package corfu
+(use-package company
   :ensure t
-  :custom
-  (corfu-cycle t) ;; Enable cycling through completion candidates
-  (corfu-auto t) ;; Enable automatic completion
-  :init
-  (global-corfu-mode))
+  :config
+  (define-key company-active-map (kbd "H-s") 'company-select-next)
+  (define-key company-active-map (kbd "H-w") 'company-select-previous)
+  ;; Enable Company mode globally
+  (global-company-mode 1)
+  ;; Set the completion cycle behavior
+  (setq company-selection-wrap-around t)
+  ;; Reduce or remove delay before suggestions start to appear.
+  (setq company-idle-delay 0)  ;; Start immediately without delay
+  (setq company-minimum-prefix-length 4)  ;; Start completion after one char
+  ;; Enable automatic completion to start as soon as typing begins.
+  ;; NOTE: This setting might be aggressive. You could increase the
+  ;; `company-minimum-prefix-length`
+  ;; or adjust `company-idle-delay` if it feels too intrusive.
+  (setq company-auto-complete-chars (quote (32 41 46))))
 
 ;; more detailed buffers
 (use-package marginalia
@@ -25,35 +35,40 @@
   :init
   (marginalia-mode))
 
+(use-package consult :ensure t)
+
+(use-package embark
+  :ensure t
+  :bind (("M-!"   . embark-act)
+         ("C-;"   . embark-dwim)
+         ("C-h B" . embark-bindings))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (setq embark-prompter 'embark-completing-read-prompter)
+  )
+
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
 (use-package vertico
   :ensure t
   :init
   (vertico-mode)
+  :bind (
+        ("M-s M-b"   . consult-buffer)
+        ("M-s M-b"   . consult-buffer-other-window)
+        ("M-s M-f"   . find-file)
+        ("M-s M-g"   . consult-ripgrep)
+        ("M-s M-c"   . locate))
   :custom
-  (vertico-cycle t)     ; Cycle through completions
-  (vertico-resize nil)) ; Don't resize minibuffer
+  (vertico-count 40))
 
 (use-package orderless
   :ensure t
   :config
   (setq completion-styles '(orderless)))
-
-(use-package counsel
-  :ensure t
-  :diminish counsel-mode
-  :bind (("M-x"       . counsel-M-x)           ; Bind M-x to counsel-M-x
-         ("M-s M-b"   . counsel-switch-buffer) ; Enhance file finding
-         ("M-s M-f"   . counsel-find-file)     ; Enhance file finding
-         ("M-s M-x"   . counsel-M-x-history)   ; Search through recent files
-         ("M-s M-G"   . counsel-git)           ; Search for files in git repo
-         ("M-s M-g"   . counsel-rg)            ; Search with ripgrep
-         ("M-s M-c"   . counsel-locate)        ; Use locate to find files
-         ("M-s M-!"   . (lambda () (interactive) (let ((ivy-height 25))
-                                                   (counsel-unicode-char)))))
-  :config
-  (setq ivy-initial-inputs-alist nil))
-
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-mode 1))

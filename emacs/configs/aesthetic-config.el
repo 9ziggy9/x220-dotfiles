@@ -13,6 +13,8 @@
       doom-themes-enable-italic t)
   (load-theme 'doom-homage-black t))
 
+(use-package ef-themes :ensure t)
+
 ;; RAINBOW PARENS
 (use-package rainbow-delimiters
   :ensure t

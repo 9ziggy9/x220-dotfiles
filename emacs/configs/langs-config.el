@@ -1,17 +1,3 @@
-;; testing org tangle
-;; (use-package flycheck
-;;   :ensure t
-;;   :init (global-flycheck-mode)
-;;   :hook
-;;   (emacs-lisp-mode . (lambda ()
-;;                        (setq-local flycheck-disabled-checkers
-;;                                    '(emacs-lisp-checkdoc))))
-;;   :config
-;;   (setq flycheck-highlighting-mode 'symbols)
-;;   (set-face-attribute 'flycheck-warning nil :foreground "yellow" :background nil :underline nil)
-;;   (set-face-attribute 'flycheck-error nil :foreground "red" :background nil :underline nil))
-
-
 ;; access docs
 (use-package eldoc-box
   :bind
@@ -23,14 +9,24 @@
   :commands eglot eglot-ensure
   :bind (:map eglot-mode-map ("M-H" . eglot-code-actions))
   :config 
-  (setq eglot-ignored-server-capabilities
-    '(:inlayHintProvider :hoverProvider ))
+  (setq eglot-ignored-server-capabilities '(:inlayHintProvider :hoverProvider ))
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
-  (add-to-list 'eglot-server-programs '(c-mode . ("clangd"))))
+  (add-to-list 'eglot-server-programs '((c-mode . ("clangd"))
+                                        (c++-mode . ("clangd"))))
+  (setf (alist-get 'c-mode eglot-server-programs) '("clangd"))
+  (setf (alist-get 'c++-mode eglot-server-programs) '("clangd")))
 
 (use-package cc-mode
   :ensure t
-  :hook (c-mode . eglot-ensure))
+  :hook ((c-mode   . (lambda () (eglot-ensure) (flymake-mode -1)))
+         (c++-mode . (lambda () (eglot-ensure) (flymake-mode -1)))))
+
+(use-package glsl-mode
+  :ensure t
+  :mode (("\\.vs\\'" . glsl-mode)   ("\\.fs\\'" . glsl-mode)
+         ("\\.gs\\'" . glsl-mode)   ("\\.vert\\'" . glsl-mode)
+         ("\\.frag\\'" . glsl-mode) ("\\.geo\\'" . glsl-mode)
+         ("\\.glsl\\'" . glsl-mode)))
 
 (use-package go-mode :ensure t)    ;; golang
 

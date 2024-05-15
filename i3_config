@@ -95,6 +95,7 @@ assign [title="ppong"] 2
 for_window [title="^haskell-particles"] floating enable
 for_window [title="^gtk_test"] floating enable
 for_window [title="^raylib_run"] floating enable
+for_window [title="^shadies"] floating enable
 for_window [class="VirtualBox Machine"] floating enable
 
 # lock store to start
