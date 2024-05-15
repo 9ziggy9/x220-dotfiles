@@ -200,9 +200,6 @@
 
 (use-package counsel-projectile :ensure t)
 
-;; SWIPER -- search through document
-(use-package swiper :ensure t)
-
 ;; IVY completion framework in find files, etc.
 ;; More minimalisitic than helm.
 (use-package ivy

@@ -35,7 +35,9 @@
   :init
   (marginalia-mode))
 
-(use-package consult :ensure t)
+(use-package consult
+  :ensure t
+  :bind (("M-s M-d" . consult-line)))
 
 (use-package embark
   :ensure t

@@ -26,14 +26,14 @@
   (which-key-setup-side-window-bottom)  ; Setup side window at the bottom
   :diminish which-key-mode)  ; Hide which-key mode from the mode line
 
-;; particularly useful for switching themes: M-x counsel themes
-(use-package swiper
-  :ensure t
-  :bind (("M-s M-d" . swiper)) ; Bind swiper to C-s, replacing default isearch
-  :config
-  ;; Optional customization
-  (setq swiper-action-recenter t)  ; Re-centers the screen after selection
-  (setq swiper-goto-start-of-match t))  ; Start of the match is aligned with the cursor
+;; ;; particularly useful for switching themes: M-x counsel themes
+;; (use-package swiper
+;;   :ensure t
+;;   :bind (("M-s M-d" . swiper)) ; Bind swiper to C-s, replacing default isearch
+;;   :config
+;;   ;; Optional customization
+;;   (setq swiper-action-recenter t)  ; Re-centers the screen after selection
+;;   (setq swiper-goto-start-of-match t))  ; Start of the match is aligned with the cursor
 
 (use-package avy
   :ensure t

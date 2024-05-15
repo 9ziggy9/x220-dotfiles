@@ -94,3 +94,9 @@
         vertico-posframe-border-width 2
         vertico-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
   )
+
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install)
+  (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1))))

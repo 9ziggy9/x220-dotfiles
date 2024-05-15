@@ -50,6 +50,11 @@
         (let ((window-width (floor (/ frame-width (length windows)))))
           (window-resize window (- window-width (window-width window)) t)))))
 
+  (defun zig/enable-line-numbers ()
+    "Enable line numbers in programming modes."
+    (when (derived-mode-p 'prog-mode)
+      (display-line-numbers-mode 1)))
+
   ;; shortcut to config
   :bind
   ("<f12>" . (lambda () (interactive)
@@ -70,11 +75,6 @@
                 indent-tabs-mode nil
                 use-dialog-box nil
                 compilation-scroll-output t)
-
-  ;; start up hooks
-  (add-hook 'emacs-startup-hook
-            (lambda () (my/log-debug-msg "Welcome to emacs, ziggy!")))
-
   ;; small margins
   (set-fringe-mode 10)
   ;; auto focus new windows
@@ -88,11 +88,10 @@
   ;; lines
   (column-number-mode)
   (setq display-line-numbers 'relative)
-  (global-display-line-numbers-mode t)
   (global-hl-line-mode 1)
-  ;; command history
-  (setq history-length 100)
-  (savehist-mode 1)
+  (add-hook 'prog-mode-hook 'zig/enable-line-numbers)
+  ;; (setq history-length 100)
+  ;; (savehist-mode 1)
   (save-place-mode 1)
   ;; custom variable cleanliness
   ;; prevents customization varibles being put into out init.el!
