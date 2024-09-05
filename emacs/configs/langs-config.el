@@ -1,20 +1,38 @@
-;; access docs
-(use-package eldoc-box
-  :bind
-  (("M-h" . eldoc-box-help-at-point)))
-
-;; No more LSP-mode!!!
 (use-package eglot
   :ensure t
   :commands eglot eglot-ensure
   :bind (:map eglot-mode-map ("M-H" . eglot-code-actions))
   :config 
-  (setq eglot-ignored-server-capabilities '(:inlayHintProvider :hoverProvider ))
+  (setq eglot-extend-to-xref t)
+  (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
-  (add-to-list 'eglot-server-programs '((c-mode . ("clangd"))
-                                        (c++-mode . ("clangd"))))
-  (setf (alist-get 'c-mode eglot-server-programs) '("clangd"))
-  (setf (alist-get 'c++-mode eglot-server-programs) '("clangd")))
+  (add-to-list 'eglot-server-programs
+               '( (c-mode          . ("Clangd" "--std=c17"))
+                  (c++-mode        . ("clangd"))
+                  (go-mode         . ("gopls"))
+                  (typescript-mode . ("typescript-language-server" "--stdio"))
+                ))
+  (setq eglot-server-programs
+        '( (c-mode          . ("clangd"))
+           (c++-mode        . ("clangd"))
+           (go-mode         . ("gopls"))
+           (typescript-mode . ("typescript-language-server" "--stdio"))
+         ))
+)
+
+(use-package eldoc
+  :ensure t
+  :hook (prog-mode . eldoc-mode))
+
+(use-package eldoc-box
+  :bind (("M-h" . eldoc-box-help-at-point))
+  :hook (eldoc-mode . eldoc-box-hover-mode))
+
+(use-package go-eldoc
+  :ensure t
+  :hook (go-mode . go-eldoc-setup))
+
+(use-package markdown-mode)
 
 (use-package cc-mode
   :ensure t
@@ -28,7 +46,9 @@
          ("\\.frag\\'" . glsl-mode) ("\\.geo\\'" . glsl-mode)
          ("\\.glsl\\'" . glsl-mode)))
 
-(use-package go-mode :ensure t)    ;; golang
+(use-package go-mode
+  :ensure t
+  :hook ((go-mode . eglot-ensure)))
 
 (use-package rust-mode
   :ensure t
@@ -47,29 +67,24 @@
   :hook (python-mode . pipenv-mode))
 ;; END PYTHON
 
-;; BEGIN TYPESCRIPT
-;; Note my typescript is using tide directly, rather than eglot
+;; BEGIN JS/TS
+(use-package js2-mode
+  :ensure t
+  :mode (("\\.gs\\'" . js2-mode))
+  :config
+  (setq js2-basic-offset 2))
+
+(use-package rjsx-mode
+  :ensure t
+  :mode ("\\.jsx?\\'" . rjsx-mode))
+
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx?\\'" . typescript-mode))
   :hook (typescript-mode . eglot-ensure)
   :config
-  (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode-hook (lambda ()
-                (add-hook 'post-command-hook 'eglot-help-at-point nil t))))
-;; END TYPESCRIPT
-
-;; BEGIN JS (only gs at moment)
-(use-package js2-mode
-  :ensure t
-  :mode (("\\.js\\'" . js2-mode)
-         ("\\.gs\\'" . js2-mode))
-  :config
-  (setq js2-basic-offset 2))
-(use-package rjsx-mode
-  :ensure t
-  :mode ("\\.jsx?\\'" . rjsx-mode)) ;; for .js and jsx files (?)
-;; END JS
+  (setq typescript-indent-level 2))
+;; END JS/TS
 
 ;; BEGIN RACKET
 (use-package racket-mode
@@ -119,7 +134,8 @@
   (setq graphviz-dot-indent-width 4))
 ;; END GRAPHVIZ
 
-;; MISC
+
+;; BEGIN MISC
 (use-package i3wm-config-mode
   :mode (("\\.i3/config\\'" . i3wm-config-mode)
           ("i3_config\\'" . i3wm-config-mode)))
@@ -127,4 +143,26 @@
 (use-package dockerfile-mode
   :ensure t
   :mode "Dockerfile\\'")
+
+(use-package yaml-mode
+  :ensure t
+  :mode "\\.yml\\'"
+  :hook (yaml-mode . (lambda ()
+                       (setq-local indent-tabs-mode nil)
+                       (setq-local tab-width 2)))
+  :config
+  ;; Additional configuration (optional)
+  (setq yaml-indent-offset 2))
+
+(use-package web-mode
+  :ensure t
+  :mode ("\\.html?\\'" . web-mode)
+  :config
+  (setq web-mode-enable-auto-pairing t
+        web-mode-enable-auto-closing t
+        web-mode-enable-auto-indentation nil
+        web-mode-enable-auto-expanding t
+        web-mode-enable-auto-quoting t
+        web-mode-auto-close-style 2
+        web-mode-tag-auto-close-style 2))
 ;; END MISC

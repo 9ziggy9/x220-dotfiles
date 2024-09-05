@@ -13,21 +13,20 @@
 ;; autocompletion
 (use-package company
   :ensure t
+  :init (global-company-mode)
   :config
+  (setq company-tooltip-align-annotations t)
   (define-key company-active-map (kbd "H-s") 'company-select-next)
   (define-key company-active-map (kbd "H-w") 'company-select-previous)
-  ;; Enable Company mode globally
-  (global-company-mode 1)
-  ;; Set the completion cycle behavior
   (setq company-selection-wrap-around t)
-  ;; Reduce or remove delay before suggestions start to appear.
   (setq company-idle-delay 0)  ;; Start immediately without delay
   (setq company-minimum-prefix-length 4)  ;; Start completion after one char
-  ;; Enable automatic completion to start as soon as typing begins.
-  ;; NOTE: This setting might be aggressive. You could increase the
-  ;; `company-minimum-prefix-length`
-  ;; or adjust `company-idle-delay` if it feels too intrusive.
+  (add-to-list 'company-backends 'company-capf)
   (setq company-auto-complete-chars (quote (32 41 46))))
+
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
 
 ;; more detailed buffers
 (use-package marginalia

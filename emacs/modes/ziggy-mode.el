@@ -1,44 +1,26 @@
-(defvar ziggy-mode-map (make-sparse-keymap)
-  "Keymap for \='ziggy-mode\='.")
-
-;; window ops
-(define-key ziggy-mode-map (kbd "C-x C-l") 'split-window-right)
-(define-key ziggy-mode-map (kbd "C-x C-j") 'split-window-below)
-(define-key ziggy-mode-map (kbd "C-x C-x") 'kill-buffer-and-window)
-(define-key ziggy-mode-map (kbd "C-l")     'windmove-right)
-(define-key ziggy-mode-map (kbd "C-h")     'windmove-left)
-(define-key ziggy-mode-map (kbd "C-k")     'windmove-up)
-(define-key ziggy-mode-map (kbd "C-j")     'windmove-down)
-;; buffer ops
-;; (define-key ziggy-mode-map (kbd "M-<backspace>") 'kill-buffer-and-window)
-(define-key ziggy-mode-map (kbd "M-]")           'next-buffer)
-(define-key ziggy-mode-map (kbd "M-[")           'previous-buffer)
-;; discovery ops
-(define-key ziggy-mode-map (kbd "C-/ 1") 'helpful-key)
-(define-key ziggy-mode-map (kbd "C-/ 2") 'helpful-function)
-(define-key ziggy-mode-map (kbd "C-/ 3") 'helpful-variable)
-(define-key ziggy-mode-map (kbd "C-/ 4") 'helpful-command)
-(define-key ziggy-mode-map (kbd "C-/ q") 'helpful-macro)
-(define-key ziggy-mode-map (kbd "C-/ w") 'helpful-symbol)
-(define-key ziggy-mode-map (kbd "C-/ e") 'helpful-at-point)
-(define-key ziggy-mode-map (kbd "C-/ r") 'helpful-callable)
-
-(defvar ziggy-mode-hook nil
-  "Hook run after entering \='ziggy-mode\='.")
-
+(defvar ziggy-mode-map (make-sparse-keymap) "keymap for `ziggy-mode'")
 (define-minor-mode ziggy-mode
-  "9ziggy9 minor mode of custom binding."
-  :global t
-  :group 'ziggy-mode
+  "9ziggy9 minor mode for custom bindings"
   :lighter " 9ziggy9"
   :keymap ziggy-mode-map
   (if ziggy-mode
-      (progn (run-hooks 'ziggy-mode-hook))))
-    
+      (progn
+        (make-local-variable 'emulation-mode-map-alists)
+        (push (list (cons 'ziggy-mode ziggy-mode-map))
+              emulation-mode-map-alists))
+    (setq emulation-mode-map-alists
+          (delete (assq 'ziggy-mode emulation-mode-map-alists)
+                  emulation-mode-map-alists))))
 
-(defun ziggy/test-log ()
-  "Test function for my ziggy mode."
+(define-globalized-minor-mode global-ziggy-mode ziggy-mode
+  (lambda () (ziggy-mode 1)))
+
+(defun ziggy/test-log () "test function for ziggy mode"
   (interactive)
   (message "9ziggy9 is in business!"))
+
+(with-eval-after-load 'evil
+  (evil-make-overriding-map ziggy-mode-map 'normal)
+  (add-hook 'ziggy-mode-hook #'evil-normalize-keymaps))
 
 (provide 'ziggy-mode)

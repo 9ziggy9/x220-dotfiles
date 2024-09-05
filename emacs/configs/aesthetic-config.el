@@ -23,11 +23,9 @@
 ;; Show colors when encountering hex color codes
 (use-package rainbow-mode
   :ensure t
+  :hook ((html-mode css-mode web-mode) . rainbow-mode)
   :config
-  ;; Optionally, enable rainbow-mode in certain modes automatically
-  (add-hook 'css-mode-hook #'rainbow-mode)
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
-  (add-hook 'html-mode-hook #'rainbow-mode))
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-mode))
 
 (defun my-powerline-theme ()
   "A powerline theme that removes git info and adds line and column numbers."

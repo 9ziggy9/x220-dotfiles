@@ -10,21 +10,20 @@
   ([remap describe-key]      . helpful-key))
 
 (use-package which-key
+  :diminish which-key-mode
   :ensure t
   :init
   (which-key-mode)
   :config
-  ;; (setq which-key-show-early-on-C-h-delay 0.8)
-  (setq which-key-idle-delay 0.1)  ; Adjust the delay before which-key popup appears
-  (setq which-key-popup-type 'side-window)  ; Display in a side window
-  (setq which-key-side-window-location 'bottom)  ; Display at the bottom
-  (setq which-key-side-window-max-width 0.33)  ; Maximum width of the which-key window
-  (setq which-key-side-window-max-height 0.25)  ; Maximum height of the which-key window
-  (setq which-key-add-column-padding 1)  ; Add padding between columns
-  (setq which-key-max-description-length 32)  ; Truncate descriptions
-  (setq which-key-allow-evil-operators t)  ; If you're using Evil mode
-  (which-key-setup-side-window-bottom)  ; Setup side window at the bottom
-  :diminish which-key-mode)  ; Hide which-key mode from the mode line
+  (which-key-setup-side-window-bottom)
+  (setq which-key-idle-delay 0.025
+        which-key-popup-type 'side-window
+        which-key-side-window-location 'bottom
+        which-key-side-window-max-width 0.33
+        which-key-side-window-max-height 0.25
+        which-key-add-column-padding 1
+        which-key-max-description-length 32
+        which-key-allow-evil-operators t))
 
 ;; ;; particularly useful for switching themes: M-x counsel themes
 ;; (use-package swiper
@@ -51,6 +50,6 @@
   (set-face-attribute 'avy-background-face nil :foreground "#77818f" :background "#181e26")
   (set-face-attribute 'avy-goto-char-timer-face nil :foreground "#53e2ae" :background "black")
 
-  (define-key evil-normal-state-map (kbd "SPC") 'evil-avy-goto-char-timer)
+  ;; (define-key evil-normal-state-map (kbd "SPC") 'evil-avy-goto-char-timer)
   (define-key evil-normal-state-map (kbd "K")   'evil-avy-goto-line-above)
   (define-key evil-normal-state-map (kbd "J")   'evil-avy-goto-line-below))
