@@ -19,21 +19,64 @@
 
   ;; simple
   (general-define-key
+   ;; text scale
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease
-   "C-<up>"    '(lambda () (interactive) (enlarge-window gen/vgro))
-   "C-<down>"  '(lambda () (interactive) (shrink-window  gen/vgro))
-   "C-<left>"  '(lambda () (interactive) (shrink-window-horizontally gen/hgro))
-   "C-<right>" '(lambda () (interactive) (enlarge-window-horizontally gen/hgro))
+
+   ;; minibuffer/general line movement
+   "H-w" 'previous-line
+   "H-s" 'next-line
+
+   ;; expand selection
+   "H-e" 'er/expand-region
+
+   ;; hide pop-up frame
+   "H-q" 'posframe-hide-all
    )
+
+  (general-define-key
+    :keymaps 'ziggy-mode-map
+    ;; window operations
+    "C-l" 'windmove-right
+    "C-h" 'windmove-left
+    "C-k" 'windmove-up
+    "C-j" 'windmove-down
+    "C-S-H" '(lambda () (interactive) (shrink-window-horizontally gen/hgro))
+    "C-S-L" '(lambda () (interactive) (enlarge-window-horizontally gen/hgro))
+    "C-S-K" '(lambda () (interactive) (enlarge-window gen/vgro))
+    "C-S-J" '(lambda () (interactive) (shrink-window  gen/vgro))
+    "C-<return>" '(lambda () (interactive) (gen/split/bal 'split-window-right))
+    "C-<backspace>" '(lambda () (interactive) (delete-window))
+
+    ;; buffer operations
+    "C-0" 'next-buffer
+    "C-9" 'previous-buffer
+
+    ;; discovery operations (using helpful)
+    "C-/ 1" '(helpful-key      :which-key "key")
+    "C-/ 2" '(helpful-function :which-key "fn")
+    "C-/ 3" '(helpful-variable :which-key "var")
+    "C-/ 4" '(helpful-command  :which-key "cmd")
+    "C-/ q" '(helpful-macro    :which-key "macro")
+    "C-/ w" '(helpful-symbol   :which-key "symbol")
+    "C-/ e" '(helpful-at-point :which-key "help @ point")
+    "C-/ r" '(helpful-callable :which-key "callable")
+    )
 
   ;; maps
   (general-create-definer leader/spc/normal :keymaps '(normal) :prefix "SPC")
   (general-create-definer leader/spc/visual :keymaps '(visual) :prefix "SPC")
 
   (leader/spc/normal
-    "c"   '(:ignore t :which-key "configuration")
-    "c c" 'gen/find-configs
+    ;; compile
+    "c"   '(:ignore t  :which-key "compile")
+    "c c" '(compile    :which-key "compile command")
+    "c r" '(recompile  :which-key "recompile (last command)")
+    "c n" '(next-error :which-key "next error")
+
+    ;; quick config
+    "C"   '(:ignore t :which-key "configuration")
+    "C C" 'gen/find-configs
 
     ;; eval
     "e"   '(:ignore t :which-key "windowing operations")

@@ -1,59 +1,18 @@
-(use-package yasnippet
-  :ensure t
-  :init
-  (yas-global-mode 1)
-  :bind (:map yas-minor-mode-map ("C-c s" . yas-insert-snippet))
-  :config
-  (add-to-list 'yas-snippet-dirs "~/.config/emacs/snippets")
-  ;; (add-hook 'yas-before-expand-snippet-hook 'yas/start-insert)
-  (with-eval-after-load 'yasnippet
-      (define-key yas-keymap (kbd "<return>") 'yas-next-field-or-maybe-expand))
-  (yas-reload-all))
-
 (use-package command-log-mode
   :ensure t
   :init
   (setq command-log-mode-open-log-turns-on-mode t
         command-log-mode-auto-show t))
 
-(use-package expand-region
-  :ensure t
-  :bind (("H-e" . er/expand-region))
-  :config)
+(use-package expand-region :ensure t)
 
-(use-package centered-cursor-mode
-  :demand
-  :config
-  (global-centered-cursor-mode))
+(use-package centered-cursor-mode :demand :config (global-centered-cursor-mode))
 
-;; (use-package posframe
-;;   :ensure t
-;;   :preface
-;;   (defun zig/display-in-posframe (buffer &optional _alist)
-;;     "Display the compilation BUFFER in a posframe."
-;;     (let ((posframe (posframe-show buffer
-;;                                    :position (point)
-;;                                    :poshandler 'posframe-poshandler-frame-center
-;;                                    :width 140
-;;                                    :height 40
-;;                                    :border-width 3
-;;                                    :border-color "#003300"
-;;                                    :accept-focus t)))
-;;       (select-frame-set-input-focus posframe)))
-;;   :config
-;;   (global-set-key (kbd "H-q") 'posframe-hide-all)
-;;   (setq display-buffer-alist
-;;         '(("\\*compilation\\*" (zig/display-in-posframe))
-;;           ("\\*Help\\*"        (zig/display-in-posframe))
-;;           ("\\*Warnings\\*"    (zig/display-in-posframe))
-;;           ("\\*Calendar\\*"    (zig/display-in-posframe))
-;;           ("\\*Man .*\\*"      (zig/display-in-posframe))
-;;           ("\\*Helpful .*\\*"  (zig/display-in-posframe)))))
 (use-package posframe
   :ensure t
-  :config
+  :preface
   (defun zig/in-posframe (buffer &optional _alist)
-    "Display the manpage BUFFER in a posframe."
+    "Display the BUFFER in a posframe and focus it for interaction."
     (posframe-show buffer
                    :position (point)
                    :poshandler 'posframe-poshandler-frame-center
@@ -63,8 +22,12 @@
                    :border-color "#003300"
                    :background-color (face-attribute 'default :background)
                    :accept-focus t)
-    (select-frame-set-input-focus (window-frame (get-buffer-window buffer)))
-    buffer)
+    (when-let ((win (get-buffer-window buffer)))
+      (select-window win)
+      (select-frame-set-input-focus (window-frame win))) buffer)
+
+
+  :config
   (setq display-buffer-alist
         '(
           ("\\*Man .*\\*"      (zig/in-posframe . nil)
@@ -78,8 +41,7 @@
           ("\\*Helpful .*\\*"  (zig/in-posframe . nil)
                                (display-buffer-no-window . nil))
           ))
-
-  (global-set-key (kbd "H-q") 'posframe-hide-all))
+  )
 
 
 (use-package vertico-posframe
@@ -94,9 +56,3 @@
         vertico-posframe-border-width 2
         vertico-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
   )
-
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install)
-  (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1))))

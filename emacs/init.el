@@ -12,6 +12,12 @@
 
   :hook (prog-mode . zig/enable-line-numbers)
   :config
+  (when (and (fboundp 'native-comp-available-p)
+            (native-comp-available-p))
+    (setq package-native-compile t)
+    (setq native-comp-async-report-warnings-errors nil)
+    (setq native-comp-deferred-compilation t))
+
   (setq-default inhibit-startup-screen t
                 make-backup-files      nil
                 tab-width              2
@@ -40,6 +46,7 @@
   (set-fringe-mode 10)
   (electric-pair-mode t)
   (global-auto-revert-mode t)
+  (pixel-scroll-precision-mode 1)
 
   (set-face-attribute 'default nil :font "Iosevka Nerd Font-14")
   (custom-set-faces
@@ -51,7 +58,6 @@
    '(mode-line ((t (:height 120)))))
 
   (load (expand-file-name "bindings.el"                    user-emacs-directory))
-  (load (expand-file-name "configs/minibuffer-config.el"   user-emacs-directory))
   (load (expand-file-name "configs/misc-config.el"         user-emacs-directory))
   (load (expand-file-name "configs/org-config.el"          user-emacs-directory))
   (load (expand-file-name "configs/aesthetic-config.el"    user-emacs-directory))
@@ -63,52 +69,13 @@
   (load (expand-file-name "configs/tex-config.el"          user-emacs-directory))
   )
 
-;; use compile (window behavior)
-(use-package compile
-  :bind (("H-c" . compile)
-         ("H-r" . recompile)
-         ("H-n" . next-error)))
-
-;; use tab-bar (tabbing buffers)
-(use-package tab-bar
-  :ensure nil ; its built-in
-  :config
-  (tab-bar-mode 1)
-  (setq tab-bar-format '(tab-bar-format-history
-                          tab-bar-format-tabs
-                          tab-bar-format-align-right))
-  :bind
-  (("H-2"  . tab-next)
-   ("H-1"   . tab-previous)
-   ("H-q"   . tab-close)
-   ("H-SPC" . tab-new)))
-
 ;; use ziggy-mode (custom binding override)
 (use-package ziggy-mode
   :ensure nil
   :load-path "modes/"
   :config
-  (global-ziggy-mode 1)
-  (bind-keys :map ziggy-mode-map
-             ;; Window operations
-             ("C-l" . windmove-right)
-             ("C-h" . windmove-left)
-             ("C-k" . windmove-up)
-             ("C-j" . windmove-down)
-             
-             ;; Buffer operations
-             ("C-." . next-buffer)
-             ("C-," . previous-buffer)
-             
-             ;; Discovery operations (using helpful)
-             ("C-/ 1" . helpful-key)
-             ("C-/ 2" . helpful-function)
-             ("C-/ 3" . helpful-variable)
-             ("C-/ 4" . helpful-command)
-             ("C-/ q" . helpful-macro)
-             ("C-/ w" . helpful-symbol)
-             ("C-/ e" . helpful-at-point)
-             ("C-/ r" . helpful-callable)))
+  (global-ziggy-mode 1))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
